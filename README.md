@@ -93,7 +93,7 @@ wayfinding-modular/
 The heart of the application, providing:
 
 - **WayfindingGraph**: Efficient graph data structure for representing the wayfinding network
-- **Pathfinder**: BFS-based pathfinding with routing constraints
+- **Pathfinder**: BFS-based pathfinding with enforced routing constraints
 - **Node Type Detection**: Automatic classification of fixtures and waypoints
 - **Error Handling**: Comprehensive error types and validation
 
@@ -109,6 +109,61 @@ graph.addEdge('wp_001', 'di_box_1');
 // Find paths
 const pathfinder = new Pathfinder(graph);
 const path = pathfinder.findPath('wp_001', 'di_box_1');
+```
+
+### 🛤️ Indoor Navigation Routing Rules
+
+The pathfinding system enforces strict routing rules for proper indoor navigation:
+
+#### ✅ **Allowed Connections**
+
+| From | To | Rule | Example |
+|------|----|----- |---------|
+| **Waypoint** | **Waypoint** | ✅ Direct travel allowed | `wp_001 → wp_025` |
+| **Fixture** | **Waypoint** | ✅ Access to navigation grid | `di_box_1 → wp_001` |
+| **Waypoint** | **Fixture** | ✅ Access from navigation grid | `wp_025 → cabinet_1` |
+
+#### ❌ **Forbidden Connections**
+
+| From | To | Rule | Reason |
+|------|----|----- |--------|
+| **Fixture** | **Fixture** | ❌ NEVER direct | Must route through waypoints |
+
+#### 🎯 **Why These Rules?**
+
+1. **Safety**: Ensures travelers follow designated pathways
+2. **Consistency**: All fixture-to-fixture routing uses established navigation grid
+3. **Maintainability**: Changes to navigation flow only require waypoint updates
+4. **Accessibility**: Waypoints can be optimized for accessibility requirements
+
+#### 📍 **Routing Examples**
+
+```javascript
+// ✅ ALLOWED: Waypoint to waypoint (navigation grid travel through intermediate points)
+pathfinder.findPath('wp_001', 'wp_025')
+// Result: ['wp_001', 'wp_002', 'wp_005', 'wp_010', 'wp_015', 'wp_020', 'wp_025']
+
+// ✅ ALLOWED: Fixture to waypoint (access navigation grid)  
+pathfinder.findPath('di_box_1', 'wp_001')
+// Result: ['di_box_1', 'wp_001']
+
+// ✅ ALLOWED: Waypoint to fixture (access fixture from grid)
+pathfinder.findPath('wp_025', 'cabinet_1') 
+// Result: ['wp_025', 'cabinet_1']
+
+// ✅ ENFORCED ROUTING: Fixture to fixture (always through waypoint network)
+pathfinder.findPath('di_box_1', 'cabinet_1')
+// Result: ['di_box_1', 'wp_001', 'wp_002', 'wp_005', 'wp_010', 'wp_015', 'wp_020', 'wp_025', 'cabinet_1']
+//          ^fixture    ^-------- waypoint network path through grid --------^    ^fixture
+// Note: Even if direct edge exists between fixtures, routing ignores it
+
+// Multiple paths work best for waypoint-to-waypoint connections
+pathfinder.findMultiplePaths('wp_001', 'wp_025', 3)
+// Result: [
+//   ['wp_001', 'wp_002', 'wp_005', 'wp_010', 'wp_015', 'wp_020', 'wp_025'],        // Route 1 (main path)
+//   ['wp_001', 'wp_003', 'wp_007', 'wp_012', 'wp_018', 'wp_022', 'wp_025'],        // Route 2 (alternate)  
+//   ['wp_001', 'wp_004', 'wp_008', 'wp_013', 'wp_017', 'wp_021', 'wp_024', 'wp_025'] // Route 3 (longer alternate)
+// ]
 ```
 
 #### 2. Data Loader (`src/data/loader.js`)

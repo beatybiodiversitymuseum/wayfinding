@@ -213,17 +213,19 @@ describe('Pathfinder', () => {
       expect(path).toBeNull();
     });
 
-    it('should allow direct fixture connections when enabled', () => {
+    it('should route fixture-to-fixture through waypoints only', () => {
+      // Add fixture connected to waypoint network
       graph.addNode('fixture3', NODE_TYPES.FOSSIL);
-      graph.addEdge('fixture1', 'fixture3');
+      graph.addEdge('fixture3', 'wp1'); // Connect fixture to waypoint network
+      graph.addEdge('fixture1', 'fixture3'); // Direct connection exists but should be ignored
 
-      // Should not find direct path by default
+      // Should find path through waypoints, ignoring direct fixture connection
       let path = pathfinder.findPath('fixture1', 'fixture3');
-      expect(path).toBeNull();
+      expect(path).toEqual(['fixture1', 'wp1', 'fixture3']); // Routes through waypoint
 
-      // Should find direct path when enabled
+      // Should still route through waypoints even when flag is enabled
       path = pathfinder.findPath('fixture1', 'fixture3', { allowDirectFixtureConnections: true });
-      expect(path).toEqual(['fixture1', 'fixture3']);
+      expect(path).toEqual(['fixture1', 'wp1', 'fixture3']); // Still routes through waypoint
     });
   });
 
@@ -264,39 +266,141 @@ describe('Pathfinder', () => {
   });
 
   describe('findMultiplePaths', () => {
-    beforeEach(() => {
-      // Create graph with multiple possible paths
-      graph.addNode('start', NODE_TYPES.DI_BOX);
-      graph.addNode('end', NODE_TYPES.CABINET);
-      graph.addNode('wp1', NODE_TYPES.WAYPOINT);
-      graph.addNode('wp2', NODE_TYPES.WAYPOINT);
-      graph.addNode('wp3', NODE_TYPES.WAYPOINT);
+    describe('point-to-point (waypoint-to-waypoint) multiple paths', () => {
+      beforeEach(() => {
+        // Create graph with multiple possible paths between two waypoints
+        // Multiple paths are only supported for point-to-point connections
+        graph.addNode('wp_001', NODE_TYPES.WAYPOINT);
+        graph.addNode('wp_010', NODE_TYPES.WAYPOINT);
+        graph.addNode('wp_002', NODE_TYPES.WAYPOINT);
+        graph.addNode('wp_003', NODE_TYPES.WAYPOINT);
+        graph.addNode('wp_004', NODE_TYPES.WAYPOINT);
+        graph.addNode('wp_005', NODE_TYPES.WAYPOINT);
 
-      // Path 1: start -> wp1 -> end
-      graph.addEdge('start', 'wp1');
-      graph.addEdge('wp1', 'end');
+        // Create multiple alternative routes between wp_001 and wp_010
+        // Route 1: wp_001 -> wp_002 -> wp_010
+        graph.addEdge('wp_001', 'wp_002');
+        graph.addEdge('wp_002', 'wp_010');
 
-      // Path 2: start -> wp2 -> end
-      graph.addEdge('start', 'wp2');
-      graph.addEdge('wp2', 'end');
+        // Route 2: wp_001 -> wp_003 -> wp_010  
+        graph.addEdge('wp_001', 'wp_003');
+        graph.addEdge('wp_003', 'wp_010');
 
-      // Path 3: start -> wp3 -> end
-      graph.addEdge('start', 'wp3');
-      graph.addEdge('wp3', 'end');
+        // Route 3: wp_001 -> wp_004 -> wp_005 -> wp_010
+        graph.addEdge('wp_001', 'wp_004');
+        graph.addEdge('wp_004', 'wp_005');
+        graph.addEdge('wp_005', 'wp_010');
+      });
+
+      it('should find multiple alternative paths between two waypoints', () => {
+        const paths = pathfinder.findMultiplePaths('wp_001', 'wp_010', 3);
+        
+        // Should find all 3 alternative routes
+        expect(paths).toHaveLength(3);
+        
+        // Each path should be different
+        const pathStrings = paths.map(p => p.join('->'));
+        expect(new Set(pathStrings).size).toBe(3);
+        
+        // Verify the expected paths
+        expect(pathStrings).toContain('wp_001->wp_002->wp_010');
+        expect(pathStrings).toContain('wp_001->wp_003->wp_010');
+        expect(pathStrings).toContain('wp_001->wp_004->wp_005->wp_010');
+      });
+
+      it('should limit number of paths returned when requested', () => {
+        const paths = pathfinder.findMultiplePaths('wp_001', 'wp_010', 2);
+        expect(paths.length).toBeLessThanOrEqual(2);
+        
+        // Should still return valid paths
+        paths.forEach(path => {
+          expect(path[0]).toBe('wp_001');
+          expect(path[path.length - 1]).toBe('wp_010');
+        });
+      });
+
+      it('should return single path when no intermediate nodes to exclude', () => {
+        // Create a direct connection with no intermediate nodes to exclude
+        const directGraph = new WayfindingGraph();
+        directGraph.addNode('wp_direct_1', NODE_TYPES.WAYPOINT);
+        directGraph.addNode('wp_direct_2', NODE_TYPES.WAYPOINT);
+        directGraph.addEdge('wp_direct_1', 'wp_direct_2');
+        
+        const directPathfinder = new Pathfinder(directGraph);
+        const paths = directPathfinder.findMultiplePaths('wp_direct_1', 'wp_direct_2', 3);
+        
+        // Should find the same path multiple times since no intermediate nodes to exclude
+        expect(paths.length).toBeGreaterThan(0);
+        // All paths should be the same direct connection
+        paths.forEach(path => {
+          expect(path).toEqual(['wp_direct_1', 'wp_direct_2']);
+        });
+      });
     });
 
-    it('should find multiple paths', () => {
-      const paths = pathfinder.findMultiplePaths('start', 'end', 3);
-      expect(paths).toHaveLength(3);
-      
-      // Each path should be different
-      const pathStrings = paths.map(p => p.join('->'));
-      expect(new Set(pathStrings).size).toBe(3);
-    });
+    describe('fixture-to-fixture paths behavior', () => {
+      beforeEach(() => {
+        // Add waypoints
+        graph.addNode('wp_001', NODE_TYPES.WAYPOINT);
+        graph.addNode('wp_002', NODE_TYPES.WAYPOINT);
+        
+        // Add fixtures
+        graph.addNode('di_box_1', NODE_TYPES.DI_BOX);
+        graph.addNode('cabinet_1', NODE_TYPES.CABINET);
+        
+        // Connect fixtures to waypoints
+        graph.addEdge('di_box_1', 'wp_001');
+        graph.addEdge('wp_002', 'cabinet_1');
+        graph.addEdge('wp_001', 'wp_002');
+      });
 
-    it('should limit number of paths returned', () => {
-      const paths = pathfinder.findMultiplePaths('start', 'end', 2);
-      expect(paths.length).toBeLessThanOrEqual(2);
+      it('should find path through waypoints for fixture-to-fixture connections', () => {
+        const paths = pathfinder.findMultiplePaths('di_box_1', 'cabinet_1', 3);
+        
+        // Should find at least one path through waypoints
+        expect(paths.length).toBeGreaterThan(0);
+        
+        // Verify the first path goes through waypoints
+        expect(paths[0]).toEqual(['di_box_1', 'wp_001', 'wp_002', 'cabinet_1']);
+      });
+
+      it('should route fixture-to-fixture through waypoints (ignoring direct connections)', () => {
+        // Add fixture connected to waypoint network AND direct connection
+        graph.addNode('fossil_1', NODE_TYPES.FOSSIL);
+        graph.addEdge('wp_002', 'fossil_1'); // Connect to waypoint network
+        graph.addEdge('di_box_1', 'fossil_1'); // Direct connection exists but should be ignored
+        
+        const paths = pathfinder.findMultiplePaths('di_box_1', 'fossil_1', 5);
+        
+        // Should find path through waypoints, ignoring direct fixture connection
+        expect(paths.length).toBeGreaterThan(0);
+        expect(paths[0]).toEqual(['di_box_1', 'wp_001', 'wp_002', 'fossil_1']);
+      });
+
+      it('should enforce waypoint routing even with allowDirectFixtureConnections flag', () => {
+        // Add fixture connected to waypoint network AND direct connection
+        graph.addNode('fossil_1', NODE_TYPES.FOSSIL);
+        graph.addEdge('wp_002', 'fossil_1'); // Connect to waypoint network
+        graph.addEdge('di_box_1', 'fossil_1'); // Direct connection
+        
+        const paths = pathfinder.findMultiplePaths('di_box_1', 'fossil_1', 3, { allowDirectFixtureConnections: true });
+        
+        // Should STILL route through waypoints (flag is ignored for fixtures)
+        expect(paths.length).toBeGreaterThan(0);
+        expect(paths[0]).toEqual(['di_box_1', 'wp_001', 'wp_002', 'fossil_1']);
+      });
+
+      it('should find fixture paths when connected through waypoints', () => {
+        // Connect fossil to the waypoint network
+        graph.addNode('fossil_1', NODE_TYPES.FOSSIL);
+        graph.addEdge('wp_002', 'fossil_1'); // Connect to waypoint network
+        
+        const paths = pathfinder.findMultiplePaths('di_box_1', 'fossil_1', 3);
+        
+        // Should find path through waypoint network
+        expect(paths.length).toBeGreaterThan(0);
+        expect(paths[0]).toEqual(['di_box_1', 'wp_001', 'wp_002', 'fossil_1']);
+      });
     });
   });
 });

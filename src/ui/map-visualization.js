@@ -91,6 +91,14 @@ export class MapVisualizationComponent {
           interleaved: true,
         });
         this.map.addControl(this.deckOverlay);
+        
+        // Set up event handlers after adding to map
+        this.deckOverlay.setProps({
+          getTooltip: this._getTooltip.bind(this),
+          onClick: this._onClick.bind(this),
+          onHover: this._onHover.bind(this),
+          getCursor: this._getCursor.bind(this),
+        });
       }
 
       // Add navigation controls
@@ -565,6 +573,224 @@ export class MapVisualizationComponent {
    */
   _dispatchEvent(eventName, detail = {}) {
     this.containerElement.dispatchEvent(new CustomEvent(eventName, { detail }));
+  }
+
+  /**
+   * Get tooltip content for hovered objects
+   * @private
+   */
+  _getTooltip(info) {
+    if (!info.object) return null;
+
+    const { object, layer } = info;
+    
+    // Handle different layer types
+    if (layer.id === 'waypoints') {
+      return {
+        html: `
+          <div style="background: rgba(0,0,0,0.8); color: white; padding: 8px 12px; border-radius: 4px; font-size: 12px; max-width: 200px;">
+            <div style="font-weight: bold; color: #1e90ff;">🔵 Waypoint</div>
+            <div style="margin: 4px 0;"><strong>ID:</strong> ${object.name}</div>
+            <div style="font-size: 10px; color: #ccc;">Click to copy ID</div>
+          </div>
+        `,
+        style: {
+          fontSize: '12px',
+          zIndex: 1000
+        }
+      };
+    }
+    
+    if (layer.id === 'fixture-polygons' || layer.id === 'fixture-points') {
+      const typeColors = {
+        di_box: '#ff8c00',
+        cabinet: '#7b1fa2', 
+        fossil: '#32cd32'
+      };
+      
+      const typeIcons = {
+        di_box: '🟠',
+        cabinet: '🟣',
+        fossil: '🟢'
+      };
+      
+      const typeNames = {
+        di_box: 'DI Box',
+        cabinet: 'Cabinet',
+        fossil: 'Fossil Excavation'
+      };
+      
+      return {
+        html: `
+          <div style="background: rgba(0,0,0,0.8); color: white; padding: 8px 12px; border-radius: 4px; font-size: 12px; max-width: 200px;">
+            <div style="font-weight: bold; color: ${typeColors[object.type] || '#666'};">
+              ${typeIcons[object.type] || '📍'} ${typeNames[object.type] || object.type}
+            </div>
+            <div style="margin: 4px 0;"><strong>ID:</strong> ${object.name}</div>
+            <div style="font-size: 10px; color: #ccc;">Click to copy ID</div>
+          </div>
+        `,
+        style: {
+          fontSize: '12px',
+          zIndex: 1000
+        }
+      };
+    }
+    
+    if (layer.id === 'current-path') {
+      return {
+        html: `
+          <div style="background: rgba(0,0,0,0.8); color: white; padding: 8px 12px; border-radius: 4px; font-size: 12px; max-width: 200px;">
+            <div style="font-weight: bold; color: #ff6b35;">🔶 Current Path</div>
+            <div style="margin: 4px 0;">${object.name}</div>
+          </div>
+        `,
+        style: {
+          fontSize: '12px',
+          zIndex: 1000
+        }
+      };
+    }
+    
+    return null;
+  }
+
+  /**
+   * Handle click events on map objects
+   * @private
+   */
+  _onClick(info) {
+    if (!info.object) return;
+
+    const { object, layer } = info;
+    let nodeId = null;
+    
+    // Extract node ID from different layer types
+    if (layer.id === 'waypoints' || layer.id === 'fixture-polygons' || layer.id === 'fixture-points') {
+      nodeId = object.name;
+    }
+    
+    if (nodeId) {
+      // Copy ID to clipboard
+      this._copyToClipboard(nodeId);
+      
+      // Show temporary feedback
+      this._showClickFeedback(info.x, info.y, nodeId);
+      
+      // Dispatch custom event
+      this._dispatchEvent('node:clicked', {
+        nodeId: nodeId,
+        nodeType: this.graph?.getNodeType(nodeId),
+        coordinates: this.graph?.getNodeCoordinates(nodeId),
+        clickPosition: { x: info.x, y: info.y }
+      });
+    }
+  }
+
+  /**
+   * Handle hover events on map objects
+   * @private
+   */
+  _onHover(info) {
+    // The tooltip is handled by _getTooltip, but we can dispatch hover events here
+    if (info.object) {
+      const { object, layer } = info;
+      let nodeId = null;
+      
+      if (layer.id === 'waypoints' || layer.id === 'fixture-polygons' || layer.id === 'fixture-points') {
+        nodeId = object.name;
+      }
+      
+      if (nodeId) {
+        this._dispatchEvent('node:hovered', {
+          nodeId: nodeId,
+          nodeType: this.graph?.getNodeType(nodeId),
+          coordinates: this.graph?.getNodeCoordinates(nodeId),
+          hoverPosition: { x: info.x, y: info.y }
+        });
+      }
+    }
+  }
+
+  /**
+   * Get cursor style for hovered objects
+   * @private
+   */
+  _getCursor(info) {
+    if (info.object) {
+      const { layer } = info;
+      if (layer.id === 'waypoints' || layer.id === 'fixture-polygons' || layer.id === 'fixture-points') {
+        return 'pointer';
+      }
+    }
+    return 'grab';
+  }
+
+  /**
+   * Copy text to clipboard
+   * @private
+   */
+  async _copyToClipboard(text) {
+    try {
+      await navigator.clipboard.writeText(text);
+      console.log(`Copied "${text}" to clipboard`);
+    } catch (error) {
+      console.warn('Failed to copy to clipboard:', error);
+      // Fallback: create temporary text area
+      const textArea = document.createElement('textarea');
+      textArea.value = text;
+      textArea.style.position = 'fixed';
+      textArea.style.left = '-999999px';
+      textArea.style.top = '-999999px';
+      document.body.appendChild(textArea);
+      textArea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textArea);
+    }
+  }
+
+  /**
+   * Show visual feedback when clicking on a node
+   * @private
+   */
+  _showClickFeedback(x, y, nodeId) {
+    const feedback = document.createElement('div');
+    feedback.style.cssText = `
+      position: fixed;
+      left: ${x}px;
+      top: ${y}px;
+      background: rgba(0, 0, 0, 0.8);
+      color: white;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      z-index: 10000;
+      pointer-events: none;
+      transform: translate(-50%, -100%);
+      animation: clickFeedback 1.5s ease-out forwards;
+    `;
+    feedback.textContent = `Copied: ${nodeId}`;
+    
+    // Add CSS animation
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes clickFeedback {
+        0% { opacity: 1; transform: translate(-50%, -100%) scale(1); }
+        100% { opacity: 0; transform: translate(-50%, -120%) scale(0.9); }
+      }
+    `;
+    document.head.appendChild(style);
+    
+    document.body.appendChild(feedback);
+    
+    setTimeout(() => {
+      if (document.body.contains(feedback)) {
+        document.body.removeChild(feedback);
+      }
+      if (document.head.contains(style)) {
+        document.head.removeChild(style);
+      }
+    }, 1500);
   }
 
   /**

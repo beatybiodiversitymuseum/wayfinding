@@ -1,8 +1,23 @@
 /**
  * Pathfinding Core Module
  * 
- * Provides core pathfinding algorithms for finding routes between fixtures
- * through waypoints in a wayfinding graph.
+ * Provides core pathfinding algorithms for indoor navigation with enforced routing rules.
+ * 
+ * ROUTING RULES:
+ * 1. Fixtures (DI boxes, cabinets, fossils) MUST route through waypoints
+ * 2. Direct waypoint-to-waypoint travel is allowed
+ * 3. Direct fixture-to-fixture connections are IGNORED (even if they exist in graph)
+ * 4. All fixture routing uses intermediary waypoints for navigation
+ * 
+ * BEHAVIOR:
+ * - pathfinder.findPath('fixture1', 'fixture2') → finds path through waypoints
+ * - Direct fixture edges in graph are ignored by routing constraints
+ * - Only returns null if no waypoint path exists between fixtures
+ * 
+ * This design ensures proper indoor navigation flow where:
+ * - Waypoints form the navigation grid/network
+ * - Fixtures are endpoints that connect to the grid
+ * - All navigation follows established pathways through the grid
  */
 
 /**
@@ -157,16 +172,27 @@ export class Pathfinder {
   }
 
   /**
-   * Find path between two nodes using BFS with routing constraints
+   * Find path between two nodes using BFS with enforced routing constraints
+   * 
+   * ROUTING BEHAVIOR:
+   * - Fixture-to-Fixture: MUST go through waypoints (never direct)
+   * - Waypoint-to-Waypoint: Direct connections allowed
+   * - Fixture-to-Waypoint: Direct connections allowed
+   * - Waypoint-to-Fixture: Direct connections allowed
+   * 
    * @param {string} sourceId - Source node ID
    * @param {string} targetId - Target node ID
    * @param {Object} options - Pathfinding options
+   * @param {boolean} options.allowDirectFixtureConnections - Ignored for fixtures (always false)
+   * @param {number} options.maxDepth - Maximum search depth (default: 1000)
+   * @param {Set} options.excludeNodes - Nodes to exclude from path (for multiple path finding)
    * @returns {Array<string>|null} Path as array of node IDs, or null if no path exists
    */
   findPath(sourceId, targetId, options = {}) {
     const {
       allowDirectFixtureConnections = false,
       maxDepth = 1000,
+      excludeNodes = new Set(),
     } = options;
 
     // Validate inputs
@@ -197,21 +223,24 @@ export class Pathfinder {
 
       // Explore neighbors
       for (const neighbor of this.graph.getNeighbors(currentNode)) {
-        if (visited.has(neighbor)) continue;
+        if (visited.has(neighbor) || excludeNodes.has(neighbor)) continue;
 
         const neighborType = this.graph.getNodeType(neighbor);
+        
+        // Apply routing constraints FIRST (before checking target)
+        if (!this._canVisitNeighbor(currentNodeType, neighborType, allowDirectFixtureConnections)) {
+          continue; // Skip this neighbor if routing constraints forbid it
+        }
+
         const newPath = [...currentPath, neighbor];
 
-        // Check if we found the target
+        // Check if we found the target (after routing constraints are satisfied)
         if (neighbor === targetId) {
           return newPath;
         }
 
-        // Apply routing constraints
-        if (this._canVisitNeighbor(currentNodeType, neighborType, allowDirectFixtureConnections)) {
-          visited.add(neighbor);
-          queue.push(newPath);
-        }
+        visited.add(neighbor);
+        queue.push(newPath);
       }
     }
 
@@ -257,12 +286,17 @@ export class Pathfinder {
   }
 
   /**
-   * Find multiple paths between source and target
+   * Find multiple alternative paths between source and target
+   * 
+   * NOTE: Multiple paths work best for waypoint-to-waypoint connections where
+   * alternative routes exist. Fixture-to-fixture paths are limited since they
+   * must route through waypoints, reducing alternative path options.
+   * 
    * @param {string} sourceId - Source node ID
    * @param {string} targetId - Target node ID
-   * @param {number} maxPaths - Maximum number of paths to find
-   * @param {Object} options - Pathfinding options
-   * @returns {Array<Array<string>>} Array of paths
+   * @param {number} maxPaths - Maximum number of paths to find (default: 3)
+   * @param {Object} options - Pathfinding options (passed to findPath)
+   * @returns {Array<Array<string>>} Array of paths, may be fewer than maxPaths
    */
   findMultiplePaths(sourceId, targetId, maxPaths = 3, options = {}) {
     const paths = [];
@@ -288,32 +322,62 @@ export class Pathfinder {
   }
 
   /**
-   * Check if we can visit a neighbor based on routing constraints
+   * Check if we can visit a neighbor based on enforced routing constraints
+   * 
+   * INDOOR NAVIGATION ROUTING RULES:
+   * ✅ Waypoint → Waypoint: Direct travel allowed (navigation grid connections)
+   * ✅ Fixture → Waypoint: Direct connection allowed (fixture access points)
+   * ✅ Waypoint → Fixture: Direct connection allowed (fixture access points)  
+   * ❌ Fixture → Fixture: NEVER direct (must route through waypoint intermediaries)
+   * 
+   * This enforces proper indoor navigation where all fixture-to-fixture routing
+   * must go through the established waypoint network, ensuring travelers follow
+   * designated pathways rather than cutting directly between fixtures.
+   * 
    * @private
+   * @param {string} currentType - Type of current node
+   * @param {string} neighborType - Type of neighbor node
+   * @param {boolean} allowDirectFixtureConnections - Ignored for fixtures (always false)
+   * @returns {boolean} True if the connection is allowed
    */
   _canVisitNeighbor(currentType, neighborType, allowDirectFixtureConnections) {
-    // Allow waypoint-to-waypoint connections
+    // ✅ Allow waypoint-to-waypoint connections (navigation grid)
     if (currentType === NODE_TYPES.WAYPOINT && neighborType === NODE_TYPES.WAYPOINT) {
       return true;
     }
 
-    // Allow fixture-to-waypoint connections
-    if (currentType !== NODE_TYPES.WAYPOINT && neighborType === NODE_TYPES.WAYPOINT) {
+    // ✅ Allow fixture-to-waypoint connections (fixture access to grid)
+    if (this._isFixtureType(currentType) && neighborType === NODE_TYPES.WAYPOINT) {
       return true;
     }
 
-    // Allow waypoint-to-fixture connections
-    if (currentType === NODE_TYPES.WAYPOINT && neighborType !== NODE_TYPES.WAYPOINT) {
+    // ✅ Allow waypoint-to-fixture connections (grid access to fixture)
+    if (currentType === NODE_TYPES.WAYPOINT && this._isFixtureType(neighborType)) {
       return true;
     }
 
-    // Handle direct fixture-to-fixture connections
-    if (currentType !== NODE_TYPES.WAYPOINT && neighborType !== NODE_TYPES.WAYPOINT) {
+    // ❌ NEVER allow direct fixture-to-fixture connections
+    // This is the core rule: fixtures must route through waypoints
+    if (this._isFixtureType(currentType) && this._isFixtureType(neighborType)) {
+      return false; // Force routing through waypoint intermediaries
+    }
+
+    // Handle unknown node types with the allowDirectFixtureConnections flag
+    if (currentType === NODE_TYPES.UNKNOWN || neighborType === NODE_TYPES.UNKNOWN) {
       return allowDirectFixtureConnections;
     }
 
-    // Default: allow unknown types
-    return true;
+    return false;
+  }
+
+  /**
+   * Check if a node type is a fixture type (non-waypoint)
+   * @private
+   */
+  _isFixtureType(nodeType) {
+    return nodeType === NODE_TYPES.DI_BOX || 
+           nodeType === NODE_TYPES.CABINET || 
+           nodeType === NODE_TYPES.FOSSIL;
   }
 }
 
