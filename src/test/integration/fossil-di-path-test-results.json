@@ -1,0 +1,4655 @@
+{
+  "timestamp": "2025-09-19T22:08:43.600Z",
+  "summary": {
+    "totalTests": 2232,
+    "successfulPaths": 1380,
+    "failedPaths": 852,
+    "successRate": 61.82795698924731,
+    "duration": 238
+  },
+  "fixtures": {
+    "fossils": [
+      "fossil_excavation_1",
+      "fossil_excavation_2",
+      "fossil_excavation_3",
+      "fossil_excavation_4",
+      "fossil_excavation_5",
+      "fossil_excavation_6",
+      "fossil_excavation_7",
+      "fossil_excavation_8",
+      "fossil_excavation_9"
+    ],
+    "diBoxes": [
+      "di_05_01_L1",
+      "di_05_01_L2",
+      "di_05_01_L3",
+      "di_05_01_top",
+      "di_05_02_L1",
+      "di_05_02_L2",
+      "di_05_02_L3",
+      "di_05_02_top",
+      "di_05_03_L1",
+      "di_05_03_L2",
+      "di_05_03_L3",
+      "di_05_03_top",
+      "di_06_01_L1",
+      "di_06_01_L2",
+      "di_06_01_L3",
+      "di_06_01_top",
+      "di_06_02_L1",
+      "di_06_02_L2",
+      "di_06_02_L3",
+      "di_06_02_top",
+      "di_06_03_L1",
+      "di_06_03_L2",
+      "di_06_03_L3",
+      "di_06_03_top",
+      "di_11_04_L1",
+      "di_11_04_L2",
+      "di_11_04_L3",
+      "di_11_04_top",
+      "di_11_05_L1",
+      "di_11_05_L2",
+      "di_11_05_L3",
+      "di_11_05_top",
+      "di_12_04_L1",
+      "di_12_04_L2",
+      "di_12_04_L3",
+      "di_12_04_top",
+      "di_12_05_L1",
+      "di_12_05_L2",
+      "di_12_05_L3",
+      "di_12_05_top",
+      "di_15_06_L1",
+      "di_15_06_L2",
+      "di_15_06_L3",
+      "di_15_06_top",
+      "di_15_07_L1",
+      "di_15_07_L2",
+      "di_15_07_L3",
+      "di_15_07_top",
+      "di_16_06_L1",
+      "di_16_06_L2",
+      "di_16_06_L3",
+      "di_16_06_top",
+      "di_16_07_L1",
+      "di_16_07_L2",
+      "di_16_07_L3",
+      "di_16_07_top",
+      "di_17_08_L1",
+      "di_17_08_L2",
+      "di_17_08_L3",
+      "di_17_08_top",
+      "di_17_09_L1",
+      "di_17_09_L2",
+      "di_17_09_L3",
+      "di_17_09_top",
+      "di_17_10_L1",
+      "di_17_10_L2",
+      "di_17_10_L3",
+      "di_17_10_top",
+      "di_17_11_L1",
+      "di_17_11_L2",
+      "di_17_11_L3",
+      "di_17_11_top",
+      "di_17_12_L1",
+      "di_17_12_L2",
+      "di_17_12_L3",
+      "di_17_12_top",
+      "di_17_13_L1",
+      "di_17_13_L2",
+      "di_17_13_L3",
+      "di_17_13_top",
+      "di_18_08_L1",
+      "di_18_08_L2",
+      "di_18_08_L3",
+      "di_18_08_top",
+      "di_18_09_L1",
+      "di_18_09_L2",
+      "di_18_09_L3",
+      "di_18_09_top",
+      "di_18_10_L1",
+      "di_18_10_L2",
+      "di_18_10_L3",
+      "di_18_10_top",
+      "di_18_11_L1",
+      "di_18_11_L2",
+      "di_18_11_L3",
+      "di_18_11_top",
+      "di_18_12_L1",
+      "di_18_12_L2",
+      "di_18_12_L3",
+      "di_18_12_top",
+      "di_18_13_L1",
+      "di_18_13_L2",
+      "di_18_13_L3",
+      "di_18_13_top",
+      "di_19_14_L1",
+      "di_19_14_L2",
+      "di_19_14_L3",
+      "di_19_14_top",
+      "di_19_15_L1",
+      "di_19_15_L2",
+      "di_19_15_L3",
+      "di_19_15_top",
+      "di_20_14_L1",
+      "di_20_14_L2",
+      "di_20_14_L3",
+      "di_20_14_top",
+      "di_20_15_L1",
+      "di_20_15_L2",
+      "di_20_15_L3",
+      "di_20_15_top",
+      "di_23_16_L1",
+      "di_23_16_L2",
+      "di_23_16_L3",
+      "di_23_16_top",
+      "di_23_17_L1",
+      "di_23_17_L2",
+      "di_23_17_L3",
+      "di_23_17_top",
+      "di_24_16_L1",
+      "di_24_16_L2",
+      "di_24_16_L3",
+      "di_24_16_top",
+      "di_24_17_L1",
+      "di_24_17_L2",
+      "di_24_17_L3",
+      "di_24_17_top",
+      "di_27_18_L1",
+      "di_27_18_L2",
+      "di_27_18_L3",
+      "di_27_18_top",
+      "di_27_19_L1",
+      "di_27_19_L2",
+      "di_27_19_L3",
+      "di_27_19_top",
+      "di_28_18_L1",
+      "di_28_18_L2",
+      "di_28_18_L3",
+      "di_28_18_top",
+      "di_28_19_L1",
+      "di_28_19_L2",
+      "di_28_19_L3",
+      "di_28_19_top",
+      "di_31_20_L1",
+      "di_31_20_L2",
+      "di_31_20_L3",
+      "di_31_20_top",
+      "di_31_21_L1",
+      "di_31_21_L2",
+      "di_31_21_L3",
+      "di_31_21_top",
+      "di_32_20_L1",
+      "di_32_20_L2",
+      "di_32_20_L3",
+      "di_32_20_top",
+      "di_32_21_L1",
+      "di_32_21_L2",
+      "di_32_21_L3",
+      "di_32_21_top",
+      "di_35_22_L1",
+      "di_35_22_L2",
+      "di_35_22_L3",
+      "di_35_22_top",
+      "di_35_23_L1",
+      "di_35_23_L2",
+      "di_35_23_L3",
+      "di_35_23_top",
+      "di_35_24_L1",
+      "di_35_24_L2",
+      "di_35_24_L3",
+      "di_35_24_top",
+      "di_35_25_L1",
+      "di_35_25_L2",
+      "di_35_25_L3",
+      "di_35_25_top",
+      "di_35_26_L1",
+      "di_35_26_L2",
+      "di_35_26_L3",
+      "di_35_26_top",
+      "di_35_27_L1",
+      "di_35_27_L2",
+      "di_35_27_L3",
+      "di_35_27_top",
+      "di_36_22_L1",
+      "di_36_22_L2",
+      "di_36_22_L3",
+      "di_36_22_top",
+      "di_36_23_L1",
+      "di_36_23_L2",
+      "di_36_23_L3",
+      "di_36_23_top",
+      "di_36_24_L1",
+      "di_36_24_L2",
+      "di_36_24_L3",
+      "di_36_24_top",
+      "di_36_25_L1",
+      "di_36_25_L2",
+      "di_36_25_L3",
+      "di_36_25_top",
+      "di_36_26_L1",
+      "di_36_26_L2",
+      "di_36_26_L3",
+      "di_36_26_top",
+      "di_36_27_L1",
+      "di_36_27_L2",
+      "di_36_27_L3",
+      "di_36_27_top",
+      "di_37_28_L1",
+      "di_37_28_L2",
+      "di_37_28_L3",
+      "di_37_28_top",
+      "di_37_29_L1",
+      "di_37_29_L2",
+      "di_37_29_L3",
+      "di_37_29_top",
+      "di_38_28_L1",
+      "di_38_28_L2",
+      "di_38_28_L3",
+      "di_38_28_top",
+      "di_38_29_L1",
+      "di_38_29_L2",
+      "di_38_29_L3",
+      "di_38_29_top",
+      "di_51_30_L1",
+      "di_51_30_L2",
+      "di_51_30_L3",
+      "di_51_30_top",
+      "di_51_31_L1",
+      "di_51_31_L2",
+      "di_51_31_L3",
+      "di_51_31_top",
+      "di_52_30_L1",
+      "di_52_30_L2",
+      "di_52_30_L3",
+      "di_52_30_top",
+      "di_52_31_L1",
+      "di_52_31_L2",
+      "di_52_31_L3",
+      "di_52_31_top"
+    ],
+    "missingFossils": [],
+    "missingDiBoxes": []
+  },
+  "errors": [
+    {
+      "source": "fossil_excavation_1",
+      "target": "di_35_24_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_1",
+      "target": "di_35_24_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_1",
+      "target": "di_35_24_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_1",
+      "target": "di_35_24_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_1",
+      "target": "di_35_25_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_1",
+      "target": "di_35_25_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_1",
+      "target": "di_35_25_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_1",
+      "target": "di_35_25_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_1",
+      "target": "di_35_26_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_1",
+      "target": "di_35_26_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_1",
+      "target": "di_35_26_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_1",
+      "target": "di_35_26_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_1",
+      "target": "di_35_27_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_1",
+      "target": "di_35_27_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_1",
+      "target": "di_35_27_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_1",
+      "target": "di_35_27_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_1",
+      "target": "di_36_22_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_1",
+      "target": "di_36_22_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_1",
+      "target": "di_36_22_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_1",
+      "target": "di_36_22_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_1",
+      "target": "di_36_23_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_1",
+      "target": "di_36_23_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_1",
+      "target": "di_36_23_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_1",
+      "target": "di_36_23_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_1",
+      "target": "di_36_24_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_1",
+      "target": "di_36_24_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_1",
+      "target": "di_36_24_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_1",
+      "target": "di_36_24_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_1",
+      "target": "di_36_25_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_1",
+      "target": "di_36_25_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_1",
+      "target": "di_36_25_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_1",
+      "target": "di_36_25_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_1",
+      "target": "di_36_26_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_1",
+      "target": "di_36_26_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_1",
+      "target": "di_36_26_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_1",
+      "target": "di_36_26_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_1",
+      "target": "di_36_27_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_1",
+      "target": "di_36_27_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_1",
+      "target": "di_36_27_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_1",
+      "target": "di_36_27_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_1",
+      "target": "di_37_28_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_1",
+      "target": "di_37_28_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_1",
+      "target": "di_37_28_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_1",
+      "target": "di_37_28_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_1",
+      "target": "di_37_29_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_1",
+      "target": "di_37_29_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_1",
+      "target": "di_37_29_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_1",
+      "target": "di_37_29_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_1",
+      "target": "di_38_28_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_1",
+      "target": "di_38_28_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_1",
+      "target": "di_38_28_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_1",
+      "target": "di_38_28_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_1",
+      "target": "di_38_29_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_1",
+      "target": "di_38_29_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_1",
+      "target": "di_38_29_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_1",
+      "target": "di_38_29_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_1",
+      "target": "di_51_30_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_1",
+      "target": "di_51_30_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_1",
+      "target": "di_51_30_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_1",
+      "target": "di_51_30_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_1",
+      "target": "di_51_31_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_1",
+      "target": "di_51_31_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_1",
+      "target": "di_51_31_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_1",
+      "target": "di_51_31_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_1",
+      "target": "di_52_30_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_1",
+      "target": "di_52_30_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_1",
+      "target": "di_52_30_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_1",
+      "target": "di_52_30_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_1",
+      "target": "di_52_31_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_1",
+      "target": "di_52_31_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_1",
+      "target": "di_52_31_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_1",
+      "target": "di_52_31_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_2",
+      "target": "di_35_24_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_2",
+      "target": "di_35_24_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_2",
+      "target": "di_35_24_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_2",
+      "target": "di_35_24_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_2",
+      "target": "di_35_25_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_2",
+      "target": "di_35_25_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_2",
+      "target": "di_35_25_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_2",
+      "target": "di_35_25_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_2",
+      "target": "di_35_26_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_2",
+      "target": "di_35_26_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_2",
+      "target": "di_35_26_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_2",
+      "target": "di_35_26_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_2",
+      "target": "di_35_27_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_2",
+      "target": "di_35_27_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_2",
+      "target": "di_35_27_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_2",
+      "target": "di_35_27_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_2",
+      "target": "di_36_22_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_2",
+      "target": "di_36_22_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_2",
+      "target": "di_36_22_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_2",
+      "target": "di_36_22_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_2",
+      "target": "di_36_23_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_2",
+      "target": "di_36_23_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_2",
+      "target": "di_36_23_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_2",
+      "target": "di_36_23_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_2",
+      "target": "di_36_24_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_2",
+      "target": "di_36_24_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_2",
+      "target": "di_36_24_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_2",
+      "target": "di_36_24_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_2",
+      "target": "di_36_25_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_2",
+      "target": "di_36_25_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_2",
+      "target": "di_36_25_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_2",
+      "target": "di_36_25_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_2",
+      "target": "di_36_26_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_2",
+      "target": "di_36_26_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_2",
+      "target": "di_36_26_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_2",
+      "target": "di_36_26_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_2",
+      "target": "di_36_27_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_2",
+      "target": "di_36_27_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_2",
+      "target": "di_36_27_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_2",
+      "target": "di_36_27_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_2",
+      "target": "di_37_28_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_2",
+      "target": "di_37_28_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_2",
+      "target": "di_37_28_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_2",
+      "target": "di_37_28_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_2",
+      "target": "di_37_29_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_2",
+      "target": "di_37_29_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_2",
+      "target": "di_37_29_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_2",
+      "target": "di_37_29_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_2",
+      "target": "di_38_28_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_2",
+      "target": "di_38_28_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_2",
+      "target": "di_38_28_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_2",
+      "target": "di_38_28_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_2",
+      "target": "di_38_29_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_2",
+      "target": "di_38_29_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_2",
+      "target": "di_38_29_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_2",
+      "target": "di_38_29_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_2",
+      "target": "di_51_30_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_2",
+      "target": "di_51_30_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_2",
+      "target": "di_51_30_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_2",
+      "target": "di_51_30_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_2",
+      "target": "di_51_31_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_2",
+      "target": "di_51_31_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_2",
+      "target": "di_51_31_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_2",
+      "target": "di_51_31_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_2",
+      "target": "di_52_30_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_2",
+      "target": "di_52_30_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_2",
+      "target": "di_52_30_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_2",
+      "target": "di_52_30_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_2",
+      "target": "di_52_31_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_2",
+      "target": "di_52_31_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_2",
+      "target": "di_52_31_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_2",
+      "target": "di_52_31_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_3",
+      "target": "di_35_22_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_3",
+      "target": "di_35_22_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_3",
+      "target": "di_35_22_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_3",
+      "target": "di_35_22_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_3",
+      "target": "di_35_23_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_3",
+      "target": "di_35_23_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_3",
+      "target": "di_35_23_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_3",
+      "target": "di_35_23_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_3",
+      "target": "di_35_24_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_3",
+      "target": "di_35_24_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_3",
+      "target": "di_35_24_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_3",
+      "target": "di_35_24_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_3",
+      "target": "di_35_25_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_3",
+      "target": "di_35_25_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_3",
+      "target": "di_35_25_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_3",
+      "target": "di_35_25_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_3",
+      "target": "di_35_26_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_3",
+      "target": "di_35_26_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_3",
+      "target": "di_35_26_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_3",
+      "target": "di_35_26_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_3",
+      "target": "di_35_27_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_3",
+      "target": "di_35_27_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_3",
+      "target": "di_35_27_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_3",
+      "target": "di_35_27_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_3",
+      "target": "di_36_22_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_3",
+      "target": "di_36_22_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_3",
+      "target": "di_36_22_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_3",
+      "target": "di_36_22_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_3",
+      "target": "di_36_23_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_3",
+      "target": "di_36_23_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_3",
+      "target": "di_36_23_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_3",
+      "target": "di_36_23_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_3",
+      "target": "di_36_24_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_3",
+      "target": "di_36_24_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_3",
+      "target": "di_36_24_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_3",
+      "target": "di_36_24_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_3",
+      "target": "di_36_25_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_3",
+      "target": "di_36_25_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_3",
+      "target": "di_36_25_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_3",
+      "target": "di_36_25_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_3",
+      "target": "di_36_26_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_3",
+      "target": "di_36_26_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_3",
+      "target": "di_36_26_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_3",
+      "target": "di_36_26_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_3",
+      "target": "di_36_27_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_3",
+      "target": "di_36_27_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_3",
+      "target": "di_36_27_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_3",
+      "target": "di_36_27_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_3",
+      "target": "di_37_28_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_3",
+      "target": "di_37_28_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_3",
+      "target": "di_37_28_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_3",
+      "target": "di_37_28_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_3",
+      "target": "di_37_29_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_3",
+      "target": "di_37_29_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_3",
+      "target": "di_37_29_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_3",
+      "target": "di_37_29_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_3",
+      "target": "di_38_28_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_3",
+      "target": "di_38_28_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_3",
+      "target": "di_38_28_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_3",
+      "target": "di_38_28_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_3",
+      "target": "di_38_29_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_3",
+      "target": "di_38_29_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_3",
+      "target": "di_38_29_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_3",
+      "target": "di_38_29_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_3",
+      "target": "di_51_30_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_3",
+      "target": "di_51_30_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_3",
+      "target": "di_51_30_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_3",
+      "target": "di_51_30_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_3",
+      "target": "di_51_31_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_3",
+      "target": "di_51_31_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_3",
+      "target": "di_51_31_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_3",
+      "target": "di_51_31_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_3",
+      "target": "di_52_30_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_3",
+      "target": "di_52_30_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_3",
+      "target": "di_52_30_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_3",
+      "target": "di_52_30_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_3",
+      "target": "di_52_31_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_3",
+      "target": "di_52_31_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_3",
+      "target": "di_52_31_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_3",
+      "target": "di_52_31_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_4",
+      "target": "di_35_24_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_4",
+      "target": "di_35_24_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_4",
+      "target": "di_35_24_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_4",
+      "target": "di_35_24_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_4",
+      "target": "di_35_25_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_4",
+      "target": "di_35_25_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_4",
+      "target": "di_35_25_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_4",
+      "target": "di_35_25_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_4",
+      "target": "di_35_26_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_4",
+      "target": "di_35_26_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_4",
+      "target": "di_35_26_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_4",
+      "target": "di_35_26_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_4",
+      "target": "di_35_27_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_4",
+      "target": "di_35_27_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_4",
+      "target": "di_35_27_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_4",
+      "target": "di_35_27_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_4",
+      "target": "di_36_22_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_4",
+      "target": "di_36_22_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_4",
+      "target": "di_36_22_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_4",
+      "target": "di_36_22_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_4",
+      "target": "di_36_23_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_4",
+      "target": "di_36_23_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_4",
+      "target": "di_36_23_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_4",
+      "target": "di_36_23_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_4",
+      "target": "di_36_24_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_4",
+      "target": "di_36_24_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_4",
+      "target": "di_36_24_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_4",
+      "target": "di_36_24_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_4",
+      "target": "di_36_25_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_4",
+      "target": "di_36_25_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_4",
+      "target": "di_36_25_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_4",
+      "target": "di_36_25_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_4",
+      "target": "di_36_26_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_4",
+      "target": "di_36_26_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_4",
+      "target": "di_36_26_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_4",
+      "target": "di_36_26_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_4",
+      "target": "di_36_27_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_4",
+      "target": "di_36_27_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_4",
+      "target": "di_36_27_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_4",
+      "target": "di_36_27_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_4",
+      "target": "di_37_28_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_4",
+      "target": "di_37_28_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_4",
+      "target": "di_37_28_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_4",
+      "target": "di_37_28_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_4",
+      "target": "di_37_29_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_4",
+      "target": "di_37_29_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_4",
+      "target": "di_37_29_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_4",
+      "target": "di_37_29_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_4",
+      "target": "di_38_28_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_4",
+      "target": "di_38_28_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_4",
+      "target": "di_38_28_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_4",
+      "target": "di_38_28_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_4",
+      "target": "di_38_29_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_4",
+      "target": "di_38_29_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_4",
+      "target": "di_38_29_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_4",
+      "target": "di_38_29_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_4",
+      "target": "di_51_30_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_4",
+      "target": "di_51_30_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_4",
+      "target": "di_51_30_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_4",
+      "target": "di_51_30_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_4",
+      "target": "di_51_31_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_4",
+      "target": "di_51_31_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_4",
+      "target": "di_51_31_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_4",
+      "target": "di_51_31_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_4",
+      "target": "di_52_30_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_4",
+      "target": "di_52_30_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_4",
+      "target": "di_52_30_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_4",
+      "target": "di_52_30_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_4",
+      "target": "di_52_31_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_4",
+      "target": "di_52_31_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_4",
+      "target": "di_52_31_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_4",
+      "target": "di_52_31_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_05_01_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_05_01_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_05_01_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_05_01_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_05_02_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_05_02_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_05_02_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_05_02_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_05_03_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_05_03_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_05_03_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_05_03_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_06_01_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_06_01_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_06_01_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_06_01_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_06_02_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_06_02_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_06_02_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_06_02_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_06_03_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_06_03_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_06_03_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_06_03_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_11_04_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_11_04_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_11_04_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_11_04_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_11_05_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_11_05_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_11_05_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_11_05_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_12_04_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_12_04_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_12_04_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_12_04_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_12_05_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_12_05_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_12_05_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_12_05_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_15_06_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_15_06_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_15_06_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_15_06_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_15_07_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_15_07_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_15_07_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_15_07_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_16_06_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_16_06_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_16_06_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_16_06_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_16_07_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_16_07_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_16_07_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_16_07_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_17_08_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_17_08_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_17_08_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_17_08_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_17_09_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_17_09_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_17_09_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_17_09_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_17_10_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_17_10_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_17_10_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_17_10_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_17_11_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_17_11_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_17_11_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_17_11_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_17_12_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_17_12_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_17_12_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_17_12_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_17_13_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_17_13_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_17_13_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_17_13_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_18_08_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_18_08_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_18_08_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_18_08_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_18_09_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_18_09_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_18_09_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_18_09_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_18_10_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_18_10_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_18_10_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_18_10_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_18_11_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_18_11_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_18_11_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_18_11_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_18_12_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_18_12_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_18_12_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_18_12_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_18_13_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_18_13_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_18_13_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_18_13_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_19_14_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_19_14_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_19_14_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_5",
+      "target": "di_19_14_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_05_01_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_05_01_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_05_01_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_05_01_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_05_02_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_05_02_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_05_02_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_05_02_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_05_03_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_05_03_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_05_03_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_05_03_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_06_01_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_06_01_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_06_01_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_06_01_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_06_02_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_06_02_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_06_02_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_06_02_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_06_03_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_06_03_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_06_03_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_06_03_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_11_04_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_11_04_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_11_04_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_11_04_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_11_05_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_11_05_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_11_05_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_11_05_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_12_04_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_12_04_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_12_04_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_12_04_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_12_05_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_12_05_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_12_05_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_12_05_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_15_06_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_15_06_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_15_06_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_15_06_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_15_07_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_15_07_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_15_07_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_15_07_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_16_06_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_16_06_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_16_06_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_16_06_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_16_07_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_16_07_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_16_07_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_16_07_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_17_08_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_17_08_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_17_08_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_17_08_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_17_09_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_17_09_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_17_09_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_17_09_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_17_10_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_17_10_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_17_10_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_17_10_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_17_11_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_17_11_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_17_11_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_17_11_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_17_12_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_17_12_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_17_12_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_17_12_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_17_13_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_17_13_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_17_13_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_17_13_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_18_08_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_18_08_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_18_08_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_18_08_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_18_09_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_18_09_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_18_09_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_18_09_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_18_10_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_18_10_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_18_10_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_18_10_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_18_11_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_18_11_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_18_11_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_18_11_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_18_12_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_18_12_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_18_12_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_18_12_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_18_13_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_18_13_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_18_13_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_18_13_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_19_15_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_19_15_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_19_15_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_19_15_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_20_15_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_20_15_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_20_15_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_6",
+      "target": "di_20_15_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_05_01_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_05_01_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_05_01_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_05_01_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_05_02_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_05_02_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_05_02_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_05_02_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_05_03_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_05_03_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_05_03_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_05_03_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_06_01_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_06_01_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_06_01_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_06_01_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_06_02_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_06_02_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_06_02_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_06_02_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_06_03_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_06_03_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_06_03_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_06_03_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_11_04_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_11_04_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_11_04_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_11_04_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_11_05_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_11_05_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_11_05_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_11_05_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_12_04_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_12_04_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_12_04_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_12_04_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_12_05_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_12_05_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_12_05_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_12_05_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_15_06_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_15_06_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_15_06_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_15_06_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_15_07_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_15_07_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_15_07_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_15_07_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_16_06_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_16_06_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_16_06_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_16_06_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_16_07_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_16_07_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_16_07_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_16_07_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_17_08_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_17_08_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_17_08_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_17_08_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_17_09_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_17_09_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_17_09_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_17_09_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_17_10_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_17_10_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_17_10_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_17_10_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_17_11_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_17_11_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_17_11_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_17_11_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_17_12_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_17_12_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_17_12_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_17_12_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_17_13_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_17_13_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_17_13_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_17_13_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_18_08_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_18_08_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_18_08_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_18_08_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_18_09_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_18_09_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_18_09_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_18_09_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_18_10_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_18_10_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_18_10_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_18_10_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_18_11_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_18_11_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_18_11_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_18_11_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_18_12_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_18_12_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_18_12_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_18_12_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_18_13_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_18_13_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_18_13_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_18_13_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_19_14_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_19_14_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_19_14_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_19_14_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_19_15_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_19_15_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_19_15_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_7",
+      "target": "di_19_15_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_05_01_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_05_01_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_05_01_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_05_01_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_05_02_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_05_02_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_05_02_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_05_02_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_05_03_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_05_03_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_05_03_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_05_03_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_06_01_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_06_01_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_06_01_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_06_01_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_06_02_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_06_02_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_06_02_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_06_02_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_06_03_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_06_03_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_06_03_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_06_03_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_11_04_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_11_04_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_11_04_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_11_04_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_11_05_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_11_05_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_11_05_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_11_05_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_12_04_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_12_04_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_12_04_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_12_04_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_12_05_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_12_05_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_12_05_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_12_05_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_15_06_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_15_06_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_15_06_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_15_06_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_15_07_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_15_07_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_15_07_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_15_07_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_16_06_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_16_06_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_16_06_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_16_06_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_16_07_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_16_07_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_16_07_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_16_07_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_17_08_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_17_08_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_17_08_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_17_08_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_17_09_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_17_09_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_17_09_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_17_09_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_17_10_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_17_10_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_17_10_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_17_10_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_17_11_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_17_11_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_17_11_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_17_11_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_17_12_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_17_12_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_17_12_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_17_12_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_17_13_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_17_13_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_17_13_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_17_13_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_18_08_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_18_08_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_18_08_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_18_08_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_18_09_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_18_09_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_18_09_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_18_09_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_18_10_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_18_10_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_18_10_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_18_10_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_18_11_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_18_11_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_18_11_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_18_11_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_18_12_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_18_12_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_18_12_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_18_12_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_18_13_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_18_13_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_18_13_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_18_13_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_19_14_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_19_14_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_19_14_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_19_14_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_19_15_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_19_15_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_19_15_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_8",
+      "target": "di_19_15_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_05_01_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_05_01_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_05_01_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_05_01_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_05_02_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_05_02_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_05_02_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_05_02_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_05_03_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_05_03_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_05_03_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_05_03_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_06_01_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_06_01_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_06_01_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_06_01_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_06_02_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_06_02_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_06_02_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_06_02_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_06_03_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_06_03_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_06_03_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_06_03_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_11_04_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_11_04_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_11_04_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_11_04_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_11_05_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_11_05_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_11_05_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_11_05_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_12_04_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_12_04_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_12_04_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_12_04_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_12_05_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_12_05_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_12_05_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_12_05_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_15_06_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_15_06_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_15_06_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_15_06_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_15_07_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_15_07_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_15_07_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_15_07_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_16_06_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_16_06_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_16_06_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_16_06_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_16_07_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_16_07_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_16_07_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_16_07_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_17_08_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_17_08_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_17_08_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_17_08_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_17_09_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_17_09_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_17_09_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_17_09_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_17_10_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_17_10_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_17_10_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_17_10_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_17_11_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_17_11_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_17_11_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_17_11_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_17_12_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_17_12_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_17_12_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_17_12_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_17_13_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_17_13_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_17_13_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_17_13_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_18_08_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_18_08_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_18_08_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_18_08_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_18_09_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_18_09_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_18_09_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_18_09_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_18_10_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_18_10_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_18_10_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_18_10_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_18_11_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_18_11_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_18_11_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_18_11_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_18_12_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_18_12_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_18_12_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_18_12_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_18_13_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_18_13_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_18_13_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_18_13_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_19_15_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_19_15_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_19_15_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_19_15_top",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_20_15_L1",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_20_15_L2",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_20_15_L3",
+      "error": "No path found"
+    },
+    {
+      "source": "fossil_excavation_9",
+      "target": "di_20_15_top",
+      "error": "No path found"
+    }
+  ],
+  "samplePaths": [
+    {
+      "source": "fossil_excavation_1",
+      "target": "di_05_01_L1",
+      "pathLength": 3,
+      "path": [
+        "fossil_excavation_1",
+        "wp_008",
+        "di_05_01_L1"
+      ],
+      "waypointsUsed": 1
+    },
+    {
+      "source": "fossil_excavation_1",
+      "target": "di_05_01_L2",
+      "pathLength": 3,
+      "path": [
+        "fossil_excavation_1",
+        "wp_008",
+        "di_05_01_L2"
+      ],
+      "waypointsUsed": 1
+    },
+    {
+      "source": "fossil_excavation_1",
+      "target": "di_05_01_L3",
+      "pathLength": 3,
+      "path": [
+        "fossil_excavation_1",
+        "wp_008",
+        "di_05_01_L3"
+      ],
+      "waypointsUsed": 1
+    },
+    {
+      "source": "fossil_excavation_1",
+      "target": "di_05_01_top",
+      "pathLength": 3,
+      "path": [
+        "fossil_excavation_1",
+        "wp_008",
+        "di_05_01_top"
+      ],
+      "waypointsUsed": 1
+    },
+    {
+      "source": "fossil_excavation_1",
+      "target": "di_05_02_L1",
+      "pathLength": 4,
+      "path": [
+        "fossil_excavation_1",
+        "wp_008",
+        "wp_009",
+        "di_05_02_L1"
+      ],
+      "waypointsUsed": 2
+    },
+    {
+      "source": "fossil_excavation_1",
+      "target": "di_05_02_L2",
+      "pathLength": 4,
+      "path": [
+        "fossil_excavation_1",
+        "wp_008",
+        "wp_009",
+        "di_05_02_L2"
+      ],
+      "waypointsUsed": 2
+    },
+    {
+      "source": "fossil_excavation_1",
+      "target": "di_05_02_L3",
+      "pathLength": 4,
+      "path": [
+        "fossil_excavation_1",
+        "wp_008",
+        "wp_009",
+        "di_05_02_L3"
+      ],
+      "waypointsUsed": 2
+    },
+    {
+      "source": "fossil_excavation_1",
+      "target": "di_05_02_top",
+      "pathLength": 4,
+      "path": [
+        "fossil_excavation_1",
+        "wp_008",
+        "wp_009",
+        "di_05_02_top"
+      ],
+      "waypointsUsed": 2
+    },
+    {
+      "source": "fossil_excavation_1",
+      "target": "di_05_03_L1",
+      "pathLength": 4,
+      "path": [
+        "fossil_excavation_1",
+        "wp_008",
+        "wp_009",
+        "di_05_03_L1"
+      ],
+      "waypointsUsed": 2
+    },
+    {
+      "source": "fossil_excavation_1",
+      "target": "di_05_03_L2",
+      "pathLength": 4,
+      "path": [
+        "fossil_excavation_1",
+        "wp_008",
+        "wp_009",
+        "di_05_03_L2"
+      ],
+      "waypointsUsed": 2
+    }
+  ]
+}

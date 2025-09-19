@@ -191,7 +191,7 @@ export class Pathfinder {
   findPath(sourceId, targetId, options = {}) {
     const {
       allowDirectFixtureConnections = false,
-      maxDepth = 1000,
+      maxDepth = 10000,
       excludeNodes = new Set(),
     } = options;
 
