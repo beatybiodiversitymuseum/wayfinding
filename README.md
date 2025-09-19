@@ -1,16 +1,5 @@
 # Wayfinding Pathfinder - Modular Version
-
-A modern, modular, and well-tested wayfinding pathfinder application for finding optimal routes between fixtures through waypoints in indoor navigation systems.
-
-## 🌟 Features
-
-- **Modular Architecture**: Clean separation of concerns with dedicated modules for pathfinding, data loading, and UI components
-- **Comprehensive Testing**: Full test suite with unit tests, integration tests, and >90% code coverage
-- **Advanced UI Components**: Smart autocomplete, interactive map visualization, and responsive design
-- **Performance Optimized**: Efficient pathfinding algorithms with caching and optimization
-- **Accessibility First**: Full ARIA support, keyboard navigation, and screen reader compatibility
-- **TypeScript-Ready**: Modern ES modules with excellent IDE support
-- **Developer Experience**: Hot reloading, linting, formatting, and comprehensive documentation
+A demonstration of indoor mapping for the Beaty.
 
 ## 🚀 Quick Start
 
@@ -349,65 +338,6 @@ npm run validate   # Run linting and tests
 4. **Tests**: Always add corresponding tests
 5. **Documentation**: Update README and JSDoc comments
 
-## 🎯 Performance
-
-### Optimizations
-
-- **Efficient Algorithms**: BFS with early termination and constraint checking
-- **Memory Management**: Set-based adjacency lists and optimized data structures
-- **Lazy Loading**: Components and data loaded on demand
-- **Caching**: Graph data cached after initial load
-- **Debouncing**: Input handling optimized for responsiveness
-
-### Benchmarks
-
-- **Small Networks** (< 1000 nodes): < 1ms pathfinding
-- **Medium Networks** (< 10000 nodes): < 10ms pathfinding  
-- **Large Networks** (< 100000 nodes): < 100ms pathfinding
-- **Memory Usage**: ~1MB per 10000 nodes
-
-## ♿ Accessibility
-
-The application is built with accessibility as a first-class concern:
-
-- **ARIA Labels**: Complete ARIA labeling for screen readers
-- **Keyboard Navigation**: Full keyboard accessibility
-- **Focus Management**: Proper focus handling and visual indicators
-- **High Contrast**: Support for high contrast mode
-- **Reduced Motion**: Respects prefers-reduced-motion settings
-- **Screen Reader**: Optimized for screen reader users
-
-## 🌐 Browser Support
-
-- **Modern Browsers**: Chrome 90+, Firefox 88+, Safari 14+, Edge 90+
-- **ES Modules**: Native ES module support required
-- **WebGL**: For advanced map visualization (graceful fallback available)
-- **Fetch API**: For data loading (polyfill available if needed)
-
-## 🐛 Troubleshooting
-
-### Common Issues
-
-#### Graph Loading Fails
-- **Cause**: GeoJSON files not accessible or malformed
-- **Solution**: Check file paths and validate GeoJSON format
-- **Debug**: Open browser console for detailed error messages
-
-#### No Path Found
-- **Cause**: Fixtures not connected through waypoints
-- **Solution**: Verify network connectivity in data
-- **Debug**: Check if source/target nodes exist in autocomplete
-
-#### Map Not Loading
-- **Cause**: MapLibre GL or Deck.gl not available
-- **Solution**: Check CDN links and internet connection
-- **Fallback**: Text-based visualization will be shown
-
-#### Performance Issues
-- **Cause**: Very large datasets or inefficient queries
-- **Solution**: Consider data optimization or pagination
-- **Monitor**: Use browser dev tools to profile performance
-
 ### Debug Mode
 
 Enable debug logging by setting:
@@ -415,27 +345,6 @@ Enable debug logging by setting:
 ```javascript
 localStorage.setItem('debug', 'wayfinding:*');
 ```
-
-## 📈 Roadmap
-
-### Planned Features
-
-- [ ] **Multi-floor Support**: 3D pathfinding across building levels
-- [ ] **Route Optimization**: Multiple path algorithms (A*, Dijkstra)
-- [ ] **Real-time Updates**: WebSocket support for live data
-- [ ] **Export Formats**: KML, GPX, and other format support
-- [ ] **Analytics**: Path usage statistics and optimization
-- [ ] **Mobile App**: React Native or PWA version
-- [ ] **API Server**: REST API for pathfinding services
-
-### Technical Improvements
-
-- [ ] **TypeScript**: Full TypeScript conversion
-- [ ] **Web Workers**: Background pathfinding for large datasets
-- [ ] **Service Worker**: Offline functionality
-- [ ] **WebAssembly**: High-performance pathfinding core
-- [ ] **GraphQL**: Modern data fetching
-- [ ] **Micro-frontends**: Component library extraction
 
 ## 🤝 Contributing
 
@@ -476,7 +385,3 @@ For questions, issues, or contributions:
 - **Issues**: [GitHub Issues](https://github.com/your-org/wayfinding-pathfinder/issues)
 - **Discussions**: [GitHub Discussions](https://github.com/your-org/wayfinding-pathfinder/discussions)
 - **Email**: support@your-org.com
-
----
-
-**Built with ❤️ for better indoor navigation**
