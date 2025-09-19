@@ -545,8 +545,9 @@
         
         <main>
             <form id="pathfindingForm" role="form" aria-label="Wayfinding pathfinding form">
+                <!-- START -->
                 <div class="form-group">
-                    <label for="source" id="source-label">Source ID (Fixture or Waypoint):</label>
+                    <label for="source" id="source-label">🚀 Start (Fixture or Waypoint):</label>
                     <div class="autocomplete" role="combobox" aria-expanded="false" aria-haspopup="listbox" aria-labelledby="source-label">
                         <input 
                             type="text" 
@@ -562,9 +563,23 @@
                     </div>
                     <div id="source-help" class="sr-only">Enter the starting fixture or waypoint ID. Use autocomplete suggestions for valid options.</div>
                 </div>
+
+                <!-- INTERMEDIATE WAYPOINTS -->
+                <div id="waypointsContainer">
+                    <!-- Intermediate waypoints will be added here dynamically -->
+                </div>
+
+                <!-- ADD WAYPOINT BUTTON (in the middle) -->
+                <div class="waypoint-controls">
+                    <button type="button" id="addWaypointBtn" class="add-waypoint-btn" title="Add intermediate waypoint">
+                        ➕ Add Waypoint
+                    </button>
+                    <small class="waypoint-help">Add intermediate waypoints to customize your route</small>
+                </div>
                 
+                <!-- END -->
                 <div class="form-group">
-                    <label for="target" id="target-label">Target ID (Fixture or Waypoint):</label>
+                    <label for="target" id="target-label">🎯 End (Fixture or Waypoint):</label>
                     <div class="autocomplete" role="combobox" aria-expanded="false" aria-haspopup="listbox" aria-labelledby="target-label">
                         <input 
                             type="text" 
@@ -593,16 +608,10 @@
                 </div>
                 <div id="find-path-help" class="sr-only">Calculate the optimal path between the source and target fixtures</div>
                 <div id="load-graph-help" class="sr-only">Load the wayfinding network data into memory for pathfinding</div>
+                <div id="toggle-mode-help" class="sr-only">Switch between single point-to-point routing and multi-point route planning</div>
             </form>
             
-            <section class="examples">
-                <h3>Example Fixture IDs:</h3>
-                <div class="example-categories">
-                    <p><strong>DI Boxes:</strong> di_27_18_top, di_05_01_top, di_12_08_bottom</p>
-                    <p><strong>Cabinets:</strong> col_1_cab_01, col_2_cab_15, col_3_cab_22</p>
-                    <p><strong>Fossils:</strong> fossil_excavation_1, fossil_excavation_2, fossil_excavation_9</p>
-                    <p><strong>Waypoints:</strong> wp_001, wp_010, wp_025, wp_049</p>
-                </div>
+
                 
                 <h4>Quick Examples:</h4>
                 <div role="group" aria-label="Example pathfinding scenarios">
@@ -612,14 +621,7 @@
                     <button type="button" class="example-button" data-source="wp_001" data-target="wp_025" aria-label="Set source to Waypoint wp_001 and target to Waypoint wp_025">Waypoint → Waypoint</button>
                     <button type="button" class="example-button" data-source="wp_010" data-target="di_27_18_top" aria-label="Set source to Waypoint wp_010 and target to DI Box di_27_18_top">Waypoint → DI Box</button>
                 </div>
-                
-                <div class="keyboard-shortcuts">
-                    <h4>⌨️ Keyboard Shortcuts:</h4>
-                    <div><strong>Ctrl+Enter</strong> (or Cmd+Enter): Find path or load graph</div>
-                    <div><strong>Escape</strong>: Clear results</div>
-                    <div><strong>Tab</strong>: Smart navigation between fields</div>
-                    <div><strong>Arrow Keys</strong>: Navigate autocomplete suggestions</div>
-                </div>
+
             </section>
             
             <div id="result" role="region" aria-live="polite" aria-label="Pathfinding results"></div>

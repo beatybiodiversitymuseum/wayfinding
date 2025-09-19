@@ -95,7 +95,7 @@ export class PathfindingFormComponent {
    */
   _setupAutocomplete() {
     if (this.options.useEnhancedSearch) {
-      // Use enhanced autocomplete with Fuse.js search
+      // Use the new enhanced autocomplete with Fuse.js search
       const fixtureUrls = [
         './public/geojson/cabinet_fixtures.geojson',
         './public/geojson/di_box_fixtures.geojson',
@@ -122,17 +122,15 @@ export class PathfindingFormComponent {
         highlightMatches: true,
       });
     } else {
-      // Use original autocomplete
+      // Fallback to original autocomplete
       this.sourceAutocomplete = new AutocompleteComponent(this.sourceInput, {
-        placeholder: 'Enter source fixture or waypoint ID...',
-        minQueryLength: 2,
-        maxSuggestions: 10,
+        placeholder: 'e.g., di_27_18_top or wp_001',
+        maxSuggestions: 50,
       });
 
       this.targetAutocomplete = new AutocompleteComponent(this.targetInput, {
-        placeholder: 'Enter target fixture or waypoint ID...',
-        minQueryLength: 2,
-        maxSuggestions: 10,
+        placeholder: 'e.g., fossil_excavation_1 or wp_025',
+        maxSuggestions: 50,
       });
     }
   }
@@ -145,50 +143,31 @@ export class PathfindingFormComponent {
     // Form submission
     this.formElement.addEventListener('submit', (e) => {
       e.preventDefault();
-      this._handleFormSubmission();
+      this._handleSubmit();
     });
 
     // Load graph button
     if (this.loadGraphButton) {
       this.loadGraphButton.addEventListener('click', (e) => {
         e.preventDefault();
-        this._emitEvent('pathfinding:load-graph', {});
+        this._handleLoadGraph();
       });
     }
 
-    // Autocomplete selections
+    // Autocomplete selection events (support both old and new autocomplete)
     this.sourceInput.addEventListener('autocomplete:select', (e) => {
-      this._emitEvent('pathfinding:autocomplete-select', {
-        field: 'source',
-        nodeId: e.detail.nodeId,
-        nodeType: e.detail.nodeType,
-      });
+      this._handleAutocompleteSelect('source', e.detail);
+    });
+    this.sourceInput.addEventListener('enhanced-autocomplete:select', (e) => {
+      this._handleAutocompleteSelect('source', e.detail);
     });
 
     this.targetInput.addEventListener('autocomplete:select', (e) => {
-      this._emitEvent('pathfinding:autocomplete-select', {
-        field: 'target',
-        nodeId: e.detail.nodeId,
-        nodeType: e.detail.nodeType,
-      });
+      this._handleAutocompleteSelect('target', e.detail);
     });
-  }
-
-  /**
-   * Handle form submission
-   * @private
-   */
-  _handleFormSubmission() {
-    const formData = this.getFormData();
-    const validation = this.validateForm();
-
-    if (!validation.isValid) {
-      this.showValidationErrors(validation.errors);
-      return;
-    }
-
-    // Handle submission with or without waypoints
-    this._handleSubmitWithWaypoints(formData);
+    this.targetInput.addEventListener('enhanced-autocomplete:select', (e) => {
+      this._handleAutocompleteSelect('target', e.detail);
+    });
   }
 
   /**
@@ -198,36 +177,59 @@ export class PathfindingFormComponent {
   _setupKeyboardShortcuts() {
     if (!this.options.enableKeyboardShortcuts) return;
 
-    // Handle Ctrl+Enter for form submission
     document.addEventListener('keydown', (e) => {
+      // Ctrl/Cmd + Enter to submit or load graph
       if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
         e.preventDefault();
-        
         if (this.graphLoaded) {
-          this._handleFormSubmission();
+          this._handleSubmit();
         } else {
-          this._emitEvent('pathfinding:load-graph', {});
+          this._handleLoadGraph();
+        }
+      }
+
+      // Escape to clear results
+      if (e.key === 'Escape') {
+        this.clearResults();
+      }
+
+      // Tab navigation enhancement
+      if (e.key === 'Tab' && !e.shiftKey) {
+        if (document.activeElement === this.sourceInput && !this.targetInput.value.trim()) {
+          e.preventDefault();
+          this.targetInput.focus();
         }
       }
     });
   }
 
   /**
-   * Setup examples
+   * Setup example buttons
    * @private
    */
   _setupExamples() {
-    // Examples are handled by the main app
+    const exampleButtons = document.querySelectorAll('.example-button');
+    exampleButtons.forEach(button => {
+      button.addEventListener('click', (e) => {
+        const source = button.getAttribute('data-source');
+        const target = button.getAttribute('data-target');
+        
+        if (source && target) {
+          this.setExample(source, target);
+        }
+      });
+    });
   }
 
   /**
-   * Set autocomplete data for inputs
+   * Set autocomplete data
    * @param {Array<string>} nodes - Array of node IDs
    * @param {Map<string, string>} nodeTypes - Map of node types
    */
   setAutocompleteData(nodes, nodeTypes) {
     if (this.options.useEnhancedSearch) {
       // Enhanced autocomplete loads data from GeoJSON files automatically
+      // But we can add waypoint data if needed
       const waypointData = nodes.map(nodeId => ({
         id: nodeId,
         name: nodeId,
@@ -258,39 +260,27 @@ export class PathfindingFormComponent {
   _updateWaypointAutocompletes(nodes, nodeTypes) {
     this.intermediateWaypoints.forEach((waypoint, index) => {
       if (waypoint.autocomplete) {
-        if (this.options.useEnhancedSearch) {
-          // Enhanced autocomplete loads data from GeoJSON files automatically
-          const waypointData = nodes.map(nodeId => ({
-            id: nodeId,
-            name: nodeId,
-            type: nodeTypes.get(nodeId) || 'waypoint',
-            category: 'navigation'
-          }));
-          
-          if (waypoint.autocomplete.setData) {
-            waypoint.autocomplete.setData([...waypoint.autocomplete.searchData, ...waypointData]);
-          }
-        } else {
-          // Original autocomplete
-          waypoint.autocomplete.setNodes(nodes, nodeTypes);
-        }
+        waypoint.autocomplete.setNodes(nodes, nodeTypes);
       }
     });
   }
 
   /**
-   * Get form data including intermediate waypoints
-   * @returns {Object} Form data with source, target, and waypoints
+   * Set example values
+   * @param {string} source - Source node ID
+   * @param {string} target - Target node ID
+   */
+  setExample(source, target) {
+    this.sourceAutocomplete.setValue(source);
+    this.targetAutocomplete.setValue(target);
+  }
+
+  /**
+   * Get form data
+   * @returns {Object} Form data
    */
   getFormData() {
     const validWaypoints = this.intermediateWaypoints.filter(w => w.id).map(w => w.id);
-    
-    console.log('Form data:', {
-      source: this.sourceAutocomplete.getValue(),
-      target: this.targetAutocomplete.getValue(),
-      waypoints: validWaypoints,
-      intermediateWaypoints: this.intermediateWaypoints,
-    });
     
     return {
       source: this.sourceAutocomplete.getValue(),
@@ -311,66 +301,32 @@ export class PathfindingFormComponent {
     if (!data.source) {
       errors.push({
         field: 'source',
-        message: 'Source fixture or waypoint is required',
+        message: 'Source is required',
+        element: this.sourceInput,
       });
     }
 
     if (!data.target) {
       errors.push({
         field: 'target',
-        message: 'Target fixture or waypoint is required',
+        message: 'Target is required',
+        element: this.targetInput,
       });
     }
 
-    if (data.source === data.target) {
+    if (data.source && data.target && data.source === data.target) {
       errors.push({
-        field: 'target',
+        field: 'both',
         message: 'Source and target cannot be the same',
+        element: this.targetInput,
       });
     }
 
     return {
       isValid: errors.length === 0,
       errors,
+      data,
     };
-  }
-
-  /**
-   * Show validation errors
-   * @param {Array} errors - Array of validation errors
-   */
-  showValidationErrors(errors) {
-    const errorMessages = errors.map(error => `<li>${error.message}</li>`).join('');
-    this.showResult(`
-      <h3>⚠️ Form Validation Errors</h3>
-      <ul>${errorMessages}</ul>
-    `, 'error');
-  }
-
-  /**
-   * Set example values
-   * @param {string} source - Source node ID
-   * @param {string} target - Target node ID
-   */
-  setExample(source, target) {
-    this.sourceAutocomplete.setValue(source);
-    this.targetAutocomplete.setValue(target);
-  }
-
-  /**
-   * Clear form inputs
-   */
-  clearForm() {
-    this.sourceAutocomplete.clear();
-    this.targetAutocomplete.clear();
-    this.clearResults();
-    
-    // Clear intermediate waypoints
-    this.intermediateWaypoints.forEach(waypoint => {
-      if (waypoint.autocomplete) {
-        waypoint.autocomplete.clear();
-      }
-    });
   }
 
   /**
@@ -378,43 +334,57 @@ export class PathfindingFormComponent {
    * @param {string} message - Loading message
    */
   showLoading(message = 'Loading...') {
-    if (!this.resultContainer) return;
+    if (!this.options.showLoadingIndicator) return;
 
-    this.resultContainer.innerHTML = `
-      <div class="loading">
-        <div class="loading-spinner">⏳</div>
-        <div class="loading-message">${message}</div>
-      </div>
-    `;
-    this.resultContainer.className = 'loading';
     this.isLoading = true;
-    this._updateLoadingState();
+    this._updateButtonStates();
+
+    if (this.resultContainer) {
+      this.resultContainer.className = 'result loading';
+      this.resultContainer.innerHTML = `
+        <div class="loading-indicator">
+          <div class="spinner"></div>
+          <div class="loading-message">${message}</div>
+        </div>
+      `;
+    }
+  }
+
+  /**
+   * Hide loading state
+   */
+  hideLoading() {
+    this.isLoading = false;
+    this._updateButtonStates();
   }
 
   /**
    * Show result
-   * @param {string} html - Result HTML
+   * @param {string} content - HTML content to show
    * @param {string} type - Result type (success, error, info)
    */
-  showResult(html, type = 'info') {
-    if (!this.resultContainer) return;
+  showResult(content, type = 'info') {
+    this.hideLoading();
 
-    this.resultContainer.innerHTML = html;
-    this.resultContainer.className = type;
-    this.isLoading = false;
-    this._updateLoadingState();
+    if (this.resultContainer) {
+      this.resultContainer.className = `result ${type}`;
+      this.resultContainer.innerHTML = content;
+    }
+
+    // Dispatch event
+    this.formElement.dispatchEvent(new CustomEvent('pathfinding:result', {
+      detail: { content, type },
+    }));
   }
 
   /**
    * Clear results
    */
   clearResults() {
-    if (!this.resultContainer) return;
-
-    this.resultContainer.innerHTML = '';
-    this.resultContainer.className = '';
-    this.isLoading = false;
-    this._updateLoadingState();
+    if (this.resultContainer) {
+      this.resultContainer.className = 'result';
+      this.resultContainer.innerHTML = '';
+    }
   }
 
   /**
@@ -423,21 +393,85 @@ export class PathfindingFormComponent {
    */
   setGraphLoaded(loaded) {
     this.graphLoaded = loaded;
-    if (this.submitButton) {
-      this.submitButton.disabled = !loaded;
+    this._updateButtonStates();
+  }
+
+  /**
+   * Handle form submission
+   * @private
+   */
+  _handleSubmit() {
+    const validation = this.validateForm();
+
+    if (!validation.isValid) {
+      this._showValidationErrors(validation.errors);
+      return;
+    }
+
+    if (!this.graphLoaded) {
+      this.showResult(`
+        <h3>⚠️ Graph Not Loaded</h3>
+        <p>Please load the graph data first by clicking "Load Graph Data".</p>
+      `, 'error');
+      return;
+    }
+
+    // Dispatch submit event
+    this.formElement.dispatchEvent(new CustomEvent('pathfinding:submit', {
+      detail: validation.data,
+    }));
+  }
+
+  /**
+   * Handle load graph action
+   * @private
+   */
+  _handleLoadGraph() {
+    this.formElement.dispatchEvent(new CustomEvent('pathfinding:load-graph'));
+  }
+
+  /**
+   * Handle autocomplete selection
+   * @private
+   */
+  _handleAutocompleteSelect(field, detail) {
+    this.formElement.dispatchEvent(new CustomEvent('pathfinding:autocomplete-select', {
+      detail: { field, ...detail },
+    }));
+  }
+
+  /**
+   * Show validation errors
+   * @private
+   */
+  _showValidationErrors(errors) {
+    const firstError = errors[0];
+    
+    let errorHtml = '<h3>⚠️ Validation Error</h3>';
+    errorHtml += '<ul>';
+    errors.forEach(error => {
+      errorHtml += `<li>${error.message}</li>`;
+    });
+    errorHtml += '</ul>';
+
+    this.showResult(errorHtml, 'error');
+
+    // Focus first error field
+    if (firstError && firstError.element) {
+      firstError.element.focus();
     }
   }
 
   /**
-   * Update loading state UI
+   * Update button states based on loading and graph status
    * @private
    */
-  _updateLoadingState() {
+  _updateButtonStates() {
     if (this.submitButton) {
       this.submitButton.disabled = this.isLoading || !this.graphLoaded;
-      this.submitButton.textContent = this.isLoading ? 'Calculating...' : '🔍 Find Path';
+      this.submitButton.textContent = this.isLoading ? 'Finding Path...' : 'Find Path';
     }
-    
+
     if (this.loadGraphButton) {
       this.loadGraphButton.disabled = this.isLoading;
       this.loadGraphButton.textContent = this.isLoading ? 'Loading...' : 'Load Graph Data';
@@ -487,7 +521,7 @@ export class PathfindingFormComponent {
     // Setup autocomplete after DOM is updated
     setTimeout(() => {
       this._setupWaypointAutocomplete(waypointIndex);
-    }, 100); // Longer delay to ensure DOM is ready
+    }, 0);
   }
 
   /**
@@ -507,26 +541,26 @@ export class PathfindingFormComponent {
         <div class="form-group waypoint-item" data-index="${index}">
           <div class="waypoint-header">
             <label for="waypoint-${index}">
-
+              <span class="waypoint-number">${index + 1}</span>
               Via Waypoint ${index + 1}:
             </label>
+            <button type="button" class="btn-remove-waypoint" data-index="${index}" title="Remove this waypoint">×</button>
           </div>
-          <div class="waypoint-input-container" style="display: flex; align-items: center; gap: 10px;">
-            <div class="autocomplete" role="combobox" aria-expanded="false" aria-haspopup="listbox" style="flex: 1;">
-              <input 
-                type="text" 
-                id="waypoint-${index}" 
-                class="waypoint-input"
-                placeholder="e.g., wp_010 or intermediate fixture..."
-                value="${isSet ? waypoint.id : ''}"
-                autocomplete="off"
-                aria-autocomplete="list"
-                role="textbox"
-              >
-            </div>
-            <button type="button" class="btn-remove-waypoint" data-index="${index}" title="Remove this waypoint" style="background: #dc3545; color: white; border: none; width: 32px; height: 32px; min-width: 32px; min-height: 32px; border-radius: 50%; cursor: pointer; font-size: 18px; font-weight: bold; flex-shrink: 0; display: flex; align-items: center; justify-content: center; line-height: 1; box-sizing: border-box; padding: 0;">×</button>
+          <div class="autocomplete" role="combobox" aria-expanded="false" aria-haspopup="listbox">
+            <input 
+              type="text" 
+              id="waypoint-${index}" 
+              class="waypoint-input"
+              placeholder="e.g., wp_010 or intermediate fixture..."
+              value="${isSet ? waypoint.id : ''}"
+              autocomplete="off"
+              aria-autocomplete="list"
+              role="textbox"
+            >
           </div>
-
+          <div class="waypoint-status ${isSet ? 'set' : 'unset'}">
+            ${isSet ? '✅ ' + displayName : '⭕ Search or type waypoint ID'}
+          </div>
         </div>
       `;
     });
@@ -543,142 +577,42 @@ export class PathfindingFormComponent {
   }
 
   /**
-   * Setup autocomplete for a specific waypoint input using the SAME enhanced autocomplete
+   * Setup autocomplete for a specific waypoint input
    * @private
    */
   _setupWaypointAutocomplete(waypointIndex) {
-    console.log(`Setting up autocomplete for waypoint ${waypointIndex}`);
     const input = this.waypointsContainer?.querySelector(`#waypoint-${waypointIndex}`);
-    if (!input) {
-      console.log(`Input not found for waypoint ${waypointIndex}`);
-      return;
-    }
-    console.log(`Found input for waypoint ${waypointIndex}:`, input);
+    if (!input) return;
     
-    let autocomplete;
+    const autocomplete = new AutocompleteComponent(input, {
+      placeholder: `Search for waypoint ${waypointIndex + 1}...`,
+      minQueryLength: 2,
+      maxSuggestions: 20,
+    });
     
-    if (this.options.useEnhancedSearch) {
-      // Use the SAME enhanced autocomplete as source/target with Fuse.js search
-      const fixtureUrls = [
-        './public/geojson/cabinet_fixtures.geojson',
-        './public/geojson/di_box_fixtures.geojson',
-        './public/geojson/fossil_excavation_fixtures.geojson'
-      ];
-
-      autocomplete = new EnhancedAutocompleteComponent(input, {
-        placeholder: `Search waypoint ${waypointIndex + 1}: cabinet, fossil, DI box, wp_...`,
-        searchProvider: 'fuse',
-        searchConfig: this.options.searchConfig,
-        dataUrls: fixtureUrls,
-        dataLoaderPreset: 'wayfinding',
-        showScores: false,
-        highlightMatches: true,
-      });
-    } else {
-      // Use original autocomplete
-      autocomplete = new AutocompleteComponent(input, {
-        placeholder: `Search for waypoint ${waypointIndex + 1}...`,
-        minQueryLength: 2,
-        maxSuggestions: 20,
-      });
-      
-      // Set nodes if graph is available
-      if (this.graph) {
-        const nodes = Array.from(this.graph.nodes);
-        autocomplete.setNodes(nodes, this.graph.nodeTypes);
-      }
+    // Set nodes if graph is available
+    if (this.graph) {
+      const nodes = Array.from(this.graph.nodes);
+      autocomplete.setNodes(nodes, this.graph.nodeTypes);
     }
     
     // Store references
     this.intermediateWaypoints[waypointIndex].autocomplete = autocomplete;
     this.intermediateWaypoints[waypointIndex].input = input;
     
-    // Handle selection - works for both regular and enhanced autocomplete
+    // Handle selection
     input.addEventListener('autocomplete:select', (e) => {
-      console.log(`Waypoint ${waypointIndex} autocomplete selected:`, e.detail);
-      // Enhanced autocomplete might use different property names
-      const nodeId = e.detail.nodeId || e.detail.id || e.detail.value;
-      const nodeType = e.detail.nodeType || e.detail.type || (this.graph?.getNodeType(nodeId));
-      this._setIntermediateWaypoint(waypointIndex, nodeId, nodeType);
-    });
-
-    // Handle enhanced autocomplete selection event
-    input.addEventListener('enhanced-autocomplete:select', (e) => {
-      console.log(`Waypoint ${waypointIndex} enhanced autocomplete selected:`, e.detail);
-      const nodeId = e.detail.id || e.detail.nodeId || e.detail.value;
-      const nodeType = e.detail.type || e.detail.nodeType || (this.graph?.getNodeType(nodeId));
-      this._setIntermediateWaypoint(waypointIndex, nodeId, nodeType);
+      this._setIntermediateWaypoint(waypointIndex, e.detail.nodeId, e.detail.nodeType);
     });
     
-    // Handle manual input on blur with more aggressive detection
+    // Handle manual input
     input.addEventListener('blur', () => {
-      // Wait a bit for autocomplete to potentially set the value
-      setTimeout(() => {
-        const value = input.value.trim();
-        console.log(`Waypoint ${waypointIndex} blur input (delayed):`, value);
-        if (value && this.graph?.hasNode(value)) {
-          const nodeType = this.graph.getNodeType(value);
-          console.log(`Valid node found: ${value} (${nodeType})`);
-          this._setIntermediateWaypoint(waypointIndex, value, nodeType);
-        } else if (value) {
-          console.log(`Invalid node: ${value} not found in graph`);
-          // Try to auto-validate anyway in case the user typed correctly
-          this._validateWaypoint(waypointIndex);
-        }
-      }, 100);
-    });
-
-    // Handle Enter key for immediate setting
-    input.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        const value = input.value.trim();
-        console.log(`Waypoint ${waypointIndex} Enter key:`, value);
-        if (value && this.graph?.hasNode(value)) {
-          const nodeType = this.graph.getNodeType(value);
-          console.log(`Valid node found: ${value} (${nodeType})`);
-          this._setIntermediateWaypoint(waypointIndex, value, nodeType);
-        } else {
-          // Try validation
-          this._validateWaypoint(waypointIndex);
-        }
+      const value = input.value.trim();
+      if (value && this.graph?.hasNode(value)) {
+        const nodeType = this.graph.getNodeType(value);
+        this._setIntermediateWaypoint(waypointIndex, value, nodeType);
       }
     });
-
-    // Handle input changes for real-time validation
-    input.addEventListener('input', () => {
-      // Debounce the input validation
-      clearTimeout(input._validationTimeout);
-      input._validationTimeout = setTimeout(() => {
-        const value = input.value.trim();
-        if (value && this.graph?.hasNode(value)) {
-          const nodeType = this.graph.getNodeType(value);
-          console.log(`Auto-detected valid node: ${value} (${nodeType})`);
-          this._setIntermediateWaypoint(waypointIndex, value, nodeType);
-        }
-      }, 500);
-    });
-  }
-
-  /**
-   * Manually validate waypoint input
-   * @private
-   */
-  _validateWaypoint(waypointIndex) {
-    const input = this.waypointsContainer?.querySelector(`#waypoint-${waypointIndex}`);
-    if (!input) return;
-    
-    const value = input.value.trim();
-    console.log(`Manually validating waypoint ${waypointIndex}:`, value);
-    
-    if (value && this.graph?.hasNode(value)) {
-      const nodeType = this.graph.getNodeType(value);
-      console.log(`Manual validation successful: ${value} (${nodeType})`);
-      this._setIntermediateWaypoint(waypointIndex, value, nodeType);
-    } else {
-      console.log(`Manual validation failed: ${value} not found in graph`);
-      console.log('Available nodes sample:', Array.from(this.graph.nodes).slice(0, 10));
-    }
   }
 
   /**
@@ -686,8 +620,6 @@ export class PathfindingFormComponent {
    * @private
    */
   _setIntermediateWaypoint(waypointIndex, nodeId, nodeType) {
-    console.log(`Setting waypoint ${waypointIndex}:`, { nodeId, nodeType });
-    
     if (waypointIndex >= 0 && waypointIndex < this.intermediateWaypoints.length) {
       const coordinates = this.graph?.getNodeCoordinates(nodeId) || null;
       
@@ -697,8 +629,6 @@ export class PathfindingFormComponent {
         type: nodeType,
         coordinates,
       };
-      
-      console.log(`Waypoint ${waypointIndex} set to:`, this.intermediateWaypoints[waypointIndex]);
       
       this._updateWaypointsDisplay();
       this._setupWaypointAutocomplete(waypointIndex); // Re-setup autocomplete
@@ -739,10 +669,7 @@ export class PathfindingFormComponent {
    * @private
    */
   _handleSubmitWithWaypoints(formData) {
-    console.log('Handling submit with waypoints:', formData);
-    
     if (!formData.hasWaypoints) {
-      console.log('No waypoints detected, using regular pathfinding');
       // Regular single-point pathfinding
       this._emitEvent('pathfinding:submit', {
         source: formData.source,
@@ -751,7 +678,6 @@ export class PathfindingFormComponent {
       return;
     }
 
-    console.log('Waypoints detected, calculating waypoint route');
     // Multi-segment pathfinding with intermediate waypoints
     this._calculateWaypointRoute(formData);
   }
@@ -780,15 +706,11 @@ export class PathfindingFormComponent {
         
         this.showLoading(`Calculating segment ${i + 1}/${routePoints.length - 1}: ${fromPoint} → ${toPoint}`);
         
-        // Individual point-to-point pathfinding call with increased depth
-        console.log(`Trying to find path: ${fromPoint} → ${toPoint}`);
-        const path = this.pathfinder.findPath(fromPoint, toPoint, { maxDepth: 2000 });
-        console.log(`Path result:`, path);
+        // Individual point-to-point pathfinding call
+        const path = this.pathfinder.findPath(fromPoint, toPoint);
         const pathDetails = this.pathfinder.getPathDetails(path);
-        console.log(`Path details:`, pathDetails);
         
         if (!pathDetails) {
-          console.error(`Failed to find path between ${fromPoint} and ${toPoint}`);
           throw new Error(`No path found between ${fromPoint} and ${toPoint}`);
         }
         
@@ -888,6 +810,342 @@ export class PathfindingFormComponent {
       bubbles: true 
     });
     this.formElement.dispatchEvent(event);
+  }
+
+  /**
+   * Destroy the component
+   */
+  destroy() {
+    if (this.sourceAutocomplete) {
+      this.sourceAutocomplete.destroy();
+    }
+    if (this.targetAutocomplete) {
+      this.targetAutocomplete.destroy();
+    }
+    
+    // Clean up intermediate waypoint autocompletes
+    this.intermediateWaypoints.forEach(waypoint => {
+      if (waypoint.autocomplete) {
+        waypoint.autocomplete.destroy();
+      }
+    });
+    this.intermediateWaypoints = [];
+  }
+}
+
+/**
+ * Utility function to create example buttons
+ * @param {Array<Object>} examples - Array of example objects with source, target, and label
+ * @param {HTMLElement} container - Container element to append buttons to
+ */
+export function createExampleButtons(examples, container) {
+  examples.forEach(example => {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'example-button';
+    button.textContent = example.label;
+    button.setAttribute('data-source', example.source);
+    button.setAttribute('data-target', example.target);
+    button.setAttribute('aria-label', 
+      `Set source to ${example.source} and target to ${example.target}`);
+    
+    container.appendChild(button);
+  });
+}
+  _setupMultiPointAutocomplete(pointIndex) {
+    const input = this.multiPointContainer?.querySelector(`#multipoint-${pointIndex}`);
+    if (!input) return;
+    
+    const autocomplete = new AutocompleteComponent(input, {
+      placeholder: `Search for point ${pointIndex + 1}...`,
+      minQueryLength: 2,
+      maxSuggestions: 20,
+    });
+    
+    // Set nodes if graph is available
+    if (this.graph) {
+      const nodes = Array.from(this.graph.nodes);
+      autocomplete.setNodes(nodes, this.graph.nodeTypes);
+    }
+    
+    // Store references
+    this.multiPoints[pointIndex].autocomplete = autocomplete;
+    this.multiPoints[pointIndex].input = input;
+    
+    // Handle selection
+    input.addEventListener('autocomplete:select', (e) => {
+      this._setMultiPoint(pointIndex, e.detail.nodeId, e.detail.nodeType);
+    });
+    
+    // Handle manual input
+    input.addEventListener('blur', () => {
+      const value = input.value.trim();
+      if (value && this.graph?.hasNode(value)) {
+        const nodeType = this.graph.getNodeType(value);
+        this._setMultiPoint(pointIndex, value, nodeType);
+      }
+    });
+  }
+
+  /**
+   * Set a specific multi-point
+   * @private
+   */
+  _setMultiPoint(pointIndex, nodeId, nodeType) {
+    if (pointIndex >= 0 && pointIndex < this.multiPoints.length) {
+      const coordinates = this.graph?.getNodeCoordinates(nodeId) || null;
+      
+      this.multiPoints[pointIndex] = {
+        ...this.multiPoints[pointIndex],
+        id: nodeId,
+        type: nodeType,
+        coordinates,
+      };
+      
+      this._updateMultiPointsList();
+      this._setupMultiPointAutocomplete(pointIndex); // Re-setup autocomplete
+      this._updateMultiPointButtons();
+      
+      // Emit event
+      this._emitEvent('multipoint:updated', {
+        pointIndex,
+        nodeId,
+        nodeType,
+        totalPoints: this.multiPoints.filter(p => p.id).length,
+      });
+    }
+  }
+
+  /**
+   * Remove a multi-point
+   * @private
+   */
+  _removeMultiPoint(pointIndex) {
+    if (pointIndex >= 0 && pointIndex < this.multiPoints.length) {
+      // Clean up autocomplete
+      if (this.multiPoints[pointIndex].autocomplete) {
+        this.multiPoints[pointIndex].autocomplete.destroy();
+      }
+      
+      this.multiPoints.splice(pointIndex, 1);
+      this._updateMultiPointsList();
+      
+      // Re-setup autocompletes for remaining points
+      this.multiPoints.forEach((point, index) => {
+        this._setupMultiPointAutocomplete(index);
+      });
+      
+      this._updateMultiPointButtons();
+    }
+  }
+
+  /**
+   * Clear all multi-points
+   * @private
+   */
+  _clearMultiPoints() {
+    this.multiPoints.forEach(point => {
+      if (point.autocomplete) {
+        point.autocomplete.destroy();
+      }
+    });
+    this.multiPoints = [];
+    this._updateMultiPointsList();
+    this._updateMultiPointButtons();
+  }
+
+  /**
+   * Calculate multi-point route using individual point-to-point calls
+   * @private
+   */
+  async _calculateMultiPointRoute() {
+    const validPoints = this.multiPoints.filter(p => p.id);
+    
+    if (validPoints.length < 2) {
+      this.showResult('<h3>⚠️ Need at least 2 points</h3><p>Add more waypoints or fixtures to calculate a route.</p>', 'error');
+      return;
+    }
+    
+    if (!this.pathfinder) {
+      this.showResult('<h3>⚠️ Pathfinder not available</h3><p>Please load the graph data first.</p>', 'error');
+      return;
+    }
+    
+    try {
+      const segments = [];
+      const totalSegments = validPoints.length - 1;
+      
+      // Calculate each segment individually (point-to-point)
+      for (let i = 0; i < totalSegments; i++) {
+        const fromPoint = validPoints[i];
+        const toPoint = validPoints[i + 1];
+        
+        this.showLoading(`Calculating segment ${i + 1}/${totalSegments}: ${fromPoint.id} → ${toPoint.id}`);
+        
+        // Individual point-to-point pathfinding call
+        const path = this.pathfinder.findPath(fromPoint.id, toPoint.id);
+        const pathDetails = this.pathfinder.getPathDetails(path);
+        
+        if (!pathDetails) {
+          throw new Error(`No path found between ${fromPoint.id} and ${toPoint.id}`);
+        }
+        
+        segments.push({
+          fromPoint,
+          toPoint,
+          path,
+          pathDetails,
+          segmentIndex: i,
+        });
+        
+        // Small delay to show progress
+        await new Promise(resolve => setTimeout(resolve, 50));
+      }
+      
+      this._displayMultiPointResults(validPoints, segments);
+      
+      // Emit event for map visualization
+      this._emitEvent('multipoint:route-calculated', {
+        points: validPoints,
+        segments,
+        totalSegments: segments.length,
+      });
+      
+    } catch (error) {
+      console.error('Multi-point route calculation failed:', error);
+      this.showResult(`
+        <h3>❌ Multi-Point Route Failed</h3>
+        <p><strong>Error:</strong> ${error.message}</p>
+      `, 'error');
+    }
+  }
+
+  /**
+   * Display multi-point route results using existing result styling
+   * @private
+   */
+  _displayMultiPointResults(points, segments) {
+    const totalNodes = segments.reduce((sum, segment) => sum + segment.path.length - 1, 1);
+    const totalWaypoints = segments.reduce((sum, segment) => sum + segment.pathDetails.summary.waypointsUsed, 0);
+    
+    let html = `
+      <h3>✅ Multi-Point Route Calculated!</h3>
+      <div class="path-summary">
+        <p><strong>Total Points:</strong> ${points.length}</p>
+        <p><strong>Route Segments:</strong> ${segments.length}</p>
+        <p><strong>Total Path Nodes:</strong> ${totalNodes}</p>
+        <p><strong>Waypoints Used:</strong> ${totalWaypoints}</p>
+        <p><strong>From:</strong> ${points[0].id} (${points[0].type})</p>
+        <p><strong>To:</strong> ${points[points.length - 1].id} (${points[points.length - 1].type})</p>
+      </div>
+      
+      <h4>🛤️ Route Segments:</h4>
+      <div class="path-nodes">
+    `;
+    
+    segments.forEach((segment, index) => {
+      const pathString = segment.path.join(' → ');
+      html += `
+        <div class="route-segment">
+          <div class="segment-header">
+            <strong>Segment ${index + 1}:</strong> 
+            <span class="path-node ${segment.fromPoint.type}">${segment.fromPoint.id}</span> → 
+            <span class="path-node ${segment.toPoint.type}">${segment.toPoint.id}</span>
+            <small>(${segment.path.length} nodes, ${segment.pathDetails.summary.waypointsUsed} waypoints)</small>
+          </div>
+          <div class="segment-path">
+            <code>${pathString}</code>
+          </div>
+        </div>
+      `;
+    });
+    
+    html += `</div>`;
+    
+    // Add export options
+    html += `
+      <h4>📄 Export Options:</h4>
+      <div class="export-actions">
+        <button onclick="app.exportMultiPointGeoJSON()" class="export-button">📋 Copy GeoJSON</button>
+        <button onclick="app.exportMultiPointCSV()" class="export-button">📊 Export CSV</button>
+        <button onclick="app.exportMultiPointInstructions()" class="export-button">📝 Text Instructions</button>
+      </div>
+    `;
+    
+    this.showResult(html, 'success');
+  }
+
+  /**
+   * Bind multi-point event listeners
+   * @private
+   */
+  _bindMultiPointEvents() {
+    if (!this.multiPointContainer) return;
+    
+    this.multiPointContainer.addEventListener('click', (e) => {
+      if (e.target.classList.contains('btn-add-point')) {
+        this._addEmptyPoint();
+      } else if (e.target.classList.contains('btn-calculate-multi')) {
+        this._calculateMultiPointRoute();
+      } else if (e.target.classList.contains('btn-clear-multi')) {
+        this._clearMultiPoints();
+      } else if (e.target.classList.contains('btn-remove-point')) {
+        const index = parseInt(e.target.dataset.index);
+        this._removeMultiPoint(index);
+      }
+    });
+  }
+
+  /**
+   * Update multi-point button states
+   * @private
+   */
+  _updateMultiPointButtons() {
+    const calculateButton = this.multiPointContainer?.querySelector('.btn-calculate-multi');
+    const validPoints = this.multiPoints.filter(p => p.id);
+    
+    if (calculateButton) {
+      calculateButton.disabled = validPoints.length < 2 || !this.pathfinder;
+      calculateButton.textContent = `📍 Calculate Route (${validPoints.length} points)`;
+    }
+  }
+
+  /**
+   * Update mode toggle button
+   * @private
+   */
+  _updateModeButton() {
+    if (this.toggleModeButton) {
+      this.toggleModeButton.textContent = this.multiPointMode ? 
+        '🔄 Switch to Single Route' : 
+        '🔄 Switch to Multi-Point';
+      this.toggleModeButton.title = this.multiPointMode ?
+        'Switch back to simple point-to-point routing' :
+        'Switch to multi-point route planning';
+    }
+  }
+
+  /**
+   * Emit custom event
+   * @private
+   */
+  _emitEvent(eventName, detail) {
+    const event = new CustomEvent(eventName, { 
+      detail,
+      bubbles: true 
+    });
+    this.formElement.dispatchEvent(event);
+  }
+
+  /**
+   * Get current multi-point data
+   */
+  getMultiPointData() {
+    return {
+      mode: this.multiPointMode,
+      points: this.multiPoints.filter(p => p.id),
+      totalPoints: this.multiPoints.length,
+    };
   }
 
   /**

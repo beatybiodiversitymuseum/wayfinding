@@ -356,10 +356,9 @@ export class Pathfinder {
       return true;
     }
 
-    // ❌ NEVER allow direct fixture-to-fixture connections
-    // This is the core rule: fixtures must route through waypoints
+    // ❌ Block direct fixture-to-fixture connections (but allow through waypoints)
     if (this._isFixtureType(currentType) && this._isFixtureType(neighborType)) {
-      return false; // Force routing through waypoint intermediaries
+      return allowDirectFixtureConnections; // Use the flag to control direct connections
     }
 
     // Handle unknown node types with the allowDirectFixtureConnections flag

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Fossil Connectivity Test</title>
+    <style>
+        body { font-family: monospace; padding: 20px; }
+        .test-result { margin: 5px 0; }
+        .success { color: green; }
+        .failure { color: red; }
+        .testing { color: blue; }
+        table { border-collapse: collapse; margin: 20px 0; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: center; }
+        .path-found { background: #d4edda; }
+        .no-path { background: #f8d7da; }
+    </style>
+</head>
+<body>
+    <h1>🧪 Fossil Connectivity Test</h1>
+    <div id="status">Loading...</div>
+    <div id="results"></div>
+    
+    <script type="module">
+        import { WayfindingDataManager } from './src/data/loader.js';
+        import { Pathfinder } from './src/core/pathfinding.js';
+
+        async function testFossilConnectivity() {
+            const statusDiv = document.getElementById('status');
+            const resultsDiv = document.getElementById('results');
+            
+            try {
+                statusDiv.innerHTML = '<div class="testing">🔄 Loading graph data...</div>';
+                
+                const manager = new WayfindingDataManager();
+                const graph = await manager.loadAndBuildGraph(
+                    './public/geojson/wayfinding.geojson', 
+                    [
+                        './public/geojson/fossil_excavation_fixtures.geojson',
+                        './public/geojson/cabinet_fixtures.geojson',
+                        './public/geojson/di_box_fixtures.geojson'
+                    ]
+                );
+                const pathfinder = new Pathfinder(graph);
+                
+                statusDiv.innerHTML = '<div class="testing">🔄 Testing fossil connectivity...</div>';
+                
+                // Get all fossil nodes
+                const allNodes = Array.from(graph.nodes);
+                const fossilNodes = allNodes.filter(nodeId => nodeId.startsWith('fossil_excavation_'));
+                
+                console.log('Found fossil nodes:', fossilNodes);
+                
+                // Test all fossil-to-fossil combinations
+                const results = [];
+                let totalTests = 0;
+                let successfulPaths = 0;
+                
+                for (let i = 0; i < fossilNodes.length; i++) {
+                    for (let j = 0; j < fossilNodes.length; j++) {
+                        if (i !== j) {
+                            const from = fossilNodes[i];
+                            const to = fossilNodes[j];
+                            totalTests++;
+                            
+                            console.log(`Testing: ${from} → ${to}`);
+                            const path = pathfinder.findPath(from, to);
+                            const pathDetails = pathfinder.getPathDetails(path);
+                            
+                            if (pathDetails) {
+                                successfulPaths++;
+                                results.push({
+                                    from,
+                                    to,
+                                    success: true,
+                                    pathLength: path.length,
+                                    waypointsUsed: pathDetails.summary.waypointsUsed,
+                                    path: path.join(' → ')
+                                });
+                                console.log(`✅ Path found: ${path.join(' → ')}`);
+                            } else {
+                                results.push({
+                                    from,
+                                    to,
+                                    success: false,
+                                    pathLength: 0,
+                                    waypointsUsed: 0,
+                                    path: 'No path'
+                                });
+                                console.log(`❌ No path found`);
+                            }
+                        }
+                    }
+                }
+                
+                // Display results
+                statusDiv.innerHTML = `
+                    <div class="success">✅ Testing Complete!</div>
+                    <div>Total fossil nodes: ${fossilNodes.length}</div>
+                    <div>Total tests: ${totalTests}</div>
+                    <div>Successful paths: ${successfulPaths}</div>
+                    <div>Success rate: ${(successfulPaths/totalTests*100).toFixed(1)}%</div>
+                `;
+                
+                // Create results table
+                let tableHTML = `
+                    <h2>📊 Fossil-to-Fossil Pathfinding Results</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>From</th>
+                                <th>To</th>
+                                <th>Status</th>
+                                <th>Path Length</th>
+                                <th>Waypoints Used</th>
+                                <th>Path</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                `;
+                
+                results.forEach(result => {
+                    const statusClass = result.success ? 'path-found' : 'no-path';
+                    const statusText = result.success ? '✅ Found' : '❌ None';
+                    tableHTML += `
+                        <tr class="${statusClass}">
+                            <td>${result.from}</td>
+                            <td>${result.to}</td>
+                            <td>${statusText}</td>
+                            <td>${result.pathLength}</td>
+                            <td>${result.waypointsUsed}</td>
+                            <td style="font-size: 11px; max-width: 400px; overflow: hidden;">${result.path}</td>
+                        </tr>
+                    `;
+                });
+                
+                tableHTML += `</tbody></table>`;
+                
+                // Add connectivity analysis
+                const connectivityMatrix = {};
+                fossilNodes.forEach(from => {
+                    connectivityMatrix[from] = {};
+                    fossilNodes.forEach(to => {
+                        if (from !== to) {
+                            const result = results.find(r => r.from === from && r.to === to);
+                            connectivityMatrix[from][to] = result ? result.success : false;
+                        }
+                    });
+                });
+                
+                tableHTML += `
+                    <h2>🔗 Connectivity Matrix</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>From \\ To</th>
+                                ${fossilNodes.map(node => `<th>${node.replace('fossil_excavation_', 'F')}</th>`).join('')}
+                            </tr>
+                        </thead>
+                        <tbody>
+                `;
+                
+                fossilNodes.forEach(from => {
+                    tableHTML += `<tr><th>${from.replace('fossil_excavation_', 'F')}</th>`;
+                    fossilNodes.forEach(to => {
+                        if (from === to) {
+                            tableHTML += '<td>-</td>';
+                        } else {
+                            const connected = connectivityMatrix[from][to];
+                            tableHTML += `<td class="${connected ? 'path-found' : 'no-path'}">${connected ? '✅' : '❌'}</td>`;
+                        }
+                    });
+                    tableHTML += '</tr>';
+                });
+                
+                tableHTML += `</tbody></table>`;
+                
+                resultsDiv.innerHTML = tableHTML;
+                
+            } catch (error) {
+                statusDiv.innerHTML = `<div class="failure">❌ Test failed: ${error.message}</div>`;
+                console.error('Test failed:', error);
+            }
+        }
+        
+        // Run test when page loads
+        testFossilConnectivity();
+    </script>
+</body>
+</html>

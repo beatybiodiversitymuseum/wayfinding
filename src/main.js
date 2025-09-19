@@ -65,6 +65,8 @@ class WayfindingApp {
       });
     }
 
+    // Multi-point container is handled by the form component
+
     // Initialize data manager
     this.dataManager = new WayfindingDataManager();
   }
@@ -89,6 +91,11 @@ class WayfindingApp {
       this.formComponent.formElement.addEventListener('pathfinding:autocomplete-select', (e) => {
         this._handleAutocompleteSelect(e.detail);
       });
+
+      // Waypoint route calculation
+      this.formComponent.formElement.addEventListener('waypoint:route-calculated', (e) => {
+        this._handleWaypointRouteCalculated(e.detail);
+      });
     }
 
     // Map events
@@ -99,6 +106,17 @@ class WayfindingApp {
 
       this.mapComponent.containerElement.addEventListener('layer:toggled', (e) => {
         this._handleLayerToggle(e.detail);
+      });
+    }
+
+    // Multi-point pathfinding events (handled by form component)
+    if (this.formComponent) {
+      this.formComponent.formElement.addEventListener('multipoint:route-calculated', (e) => {
+        this._handleMultiPointRouteCalculated(e.detail);
+      });
+
+      this.formComponent.formElement.addEventListener('multipoint:updated', (e) => {
+        this._handleMultiPointUpdated(e.detail);
       });
     }
 
@@ -128,11 +146,15 @@ class WayfindingApp {
 
       this.graph = await this.dataManager.loadAndBuildGraph(wayfindingUrl, fixtureUrls);
       this.pathfinder = new Pathfinder(this.graph);
+      
+      // Automatically test all fossil connectivity
+      this._testFossilConnectivity();
 
       // Update UI components
       if (this.formComponent) {
         const nodes = Array.from(this.graph.nodes);
         this.formComponent.setAutocompleteData(nodes, this.graph.nodeTypes);
+        this.formComponent.setPathfinder(this.pathfinder, this.graph);
         this.formComponent.setGraphLoaded(true);
       }
 
@@ -240,6 +262,87 @@ class WayfindingApp {
   }
 
   /**
+   * Handle multi-point route calculated
+   * @private
+   */
+  _handleMultiPointRouteCalculated({ points, segments, totalSegments }) {
+    console.log(`Multi-point route calculated: ${points.length} points, ${totalSegments} segments`);
+    
+    // Update map with multi-point route visualization
+    if (this.mapComponent) {
+      // Create combined path for map display
+      const allCoordinates = [];
+      segments.forEach(segment => {
+        const segmentCoords = segment.pathDetails.nodes
+          .filter(node => node.coordinates)
+          .map(node => node.coordinates);
+        allCoordinates.push(...segmentCoords);
+      });
+
+      // Create a combined path details object for map display
+      const combinedPathDetails = {
+        path: segments.flatMap(s => s.path.slice(0, -1)).concat(segments[segments.length - 1]?.path || []),
+        nodes: segments.flatMap(s => s.pathDetails.nodes.slice(0, -1)).concat(segments[segments.length - 1]?.pathDetails.nodes || []),
+        length: segments.reduce((sum, s) => sum + s.path.length - 1, 1),
+        summary: {
+          start: { id: points[0].id, type: points[0].type },
+          end: { id: points[points.length - 1].id, type: points[points.length - 1].type },
+          waypointsUsed: segments.reduce((sum, s) => sum + s.pathDetails.summary.waypointsUsed, 0),
+        },
+      };
+
+      this.mapComponent.setCurrentPath(combinedPathDetails);
+    }
+
+    this._updateStatus(`Multi-point route calculated: ${totalSegments} segments`, 'success');
+  }
+
+  /**
+   * Handle waypoint route calculated
+   * @private
+   */
+  _handleWaypointRouteCalculated({ routePoints, segments, totalSegments }) {
+    console.log(`Waypoint route calculated: ${routePoints.length} points, ${totalSegments} segments`);
+    
+    // Update map with waypoint route visualization
+    if (this.mapComponent) {
+      // Create combined path for map display by joining all segments
+      const allNodes = [];
+      segments.forEach((segment, index) => {
+        // Add all nodes from this segment, but avoid duplicating connection points
+        const segmentNodes = segment.pathDetails.nodes;
+        if (index === 0) {
+          // First segment: add all nodes
+          allNodes.push(...segmentNodes);
+        } else {
+          // Subsequent segments: skip first node (it's the same as last node of previous segment)
+          allNodes.push(...segmentNodes.slice(1));
+        }
+      });
+
+      // Create a combined path details object for map display
+      const combinedPath = segments.flatMap((s, index) => 
+        index === 0 ? s.path : s.path.slice(1)
+      );
+
+      const combinedPathDetails = {
+        path: combinedPath,
+        nodes: allNodes,
+        length: combinedPath.length,
+        summary: {
+          start: { id: routePoints[0], type: segments[0].pathDetails.summary.start.type },
+          end: { id: routePoints[routePoints.length - 1], type: segments[segments.length - 1].pathDetails.summary.end.type },
+          waypointsUsed: segments.reduce((sum, s) => sum + s.pathDetails.summary.waypointsUsed, 0),
+        },
+      };
+
+      this.mapComponent.setCurrentPath(combinedPathDetails);
+    }
+
+    this._updateStatus(`Waypoint route calculated: ${totalSegments} segments through ${routePoints.length} points`, 'success');
+  }
+
+  /**
    * Handle keyboard shortcuts
    * @private
    */
@@ -298,16 +401,11 @@ class WayfindingApp {
                         (stats.nodeTypes.fossil || 0);
 
     this.formComponent.showResult(`
-      <h3>✅ Graph Loaded Successfully!</h3>
-      <div class="graph-stats">
-        <h4>📊 Network Statistics</h4>
-        <div class="stats-grid">
-          <div><strong>Total Nodes:</strong> ${stats.totalNodes.toLocaleString()}</div>
-          <div><strong>Fixtures:</strong> ${fixtureCount.toLocaleString()}</div>
-          <div><strong>Waypoints:</strong> ${(stats.nodeTypes.waypoint || 0).toLocaleString()}</div>
-          <div><strong>Polygons:</strong> ${stats.fixturePolygons.toLocaleString()}</div>
-        </div>
+            <div class="ready-message">
+        <strong>💡 Ready to use!</strong> Start typing in the input fields for autocomplete suggestions, or use the quick example buttons below.
       </div>
+      <h3>✅ Walking Routes Loaded Successfully!</h3>
+
       <div class="node-types">
         <h4>Node Types Breakdown:</h4>
         <ul>
@@ -317,9 +415,7 @@ class WayfindingApp {
           <li>🟢 Fossil Excavations: ${(stats.nodeTypes.fossil || 0).toLocaleString()} (dig sites)</li>
         </ul>
       </div>
-      <div class="ready-message">
-        <strong>💡 Ready to use!</strong> Start typing in the input fields for autocomplete suggestions, or use the quick example buttons below.
-      </div>
+
     `, 'success');
   }
 
@@ -574,7 +670,6 @@ class WayfindingApp {
     console.log(`🔍 Toggling layer: ${layerName}`);
     if (this.mapComponent) {
       this.mapComponent.toggleLayer(layerName);
-      this._updateButtonStates();
     }
   }
 
@@ -596,6 +691,67 @@ class WayfindingApp {
       isGraphLoaded: this.isGraphLoaded,
       graphStats: this.graph ? this.graph.getStatistics() : null,
     };
+  }
+
+  /**
+   * Test all fossil connectivity automatically
+   * @private
+   */
+  _testFossilConnectivity() {
+    console.log('🧪 TESTING ALL FOSSIL CONNECTIVITY');
+    
+    const allNodes = Array.from(this.graph.nodes);
+    const fossilNodes = allNodes.filter(nodeId => nodeId.startsWith('fossil_excavation_'));
+    
+    console.log(`Found ${fossilNodes.length} fossil nodes:`, fossilNodes);
+    
+    let totalTests = 0;
+    let successfulPaths = 0;
+    const failedPaths = [];
+    
+    for (let i = 0; i < fossilNodes.length; i++) {
+      for (let j = 0; j < fossilNodes.length; j++) {
+        if (i !== j) {
+          const from = fossilNodes[i];
+          const to = fossilNodes[j];
+          totalTests++;
+          
+          const path = this.pathfinder.findPath(from, to, { maxDepth: 2000 }); // Increase search depth
+          if (path) {
+            successfulPaths++;
+            console.log(`✅ ${from} → ${to}: ${path.join(' → ')}`);
+          } else {
+            failedPaths.push(`${from} → ${to}`);
+            console.log(`❌ ${from} → ${to}: NO PATH`);
+          }
+        }
+      }
+    }
+    
+    console.log(`🧪 FOSSIL CONNECTIVITY TEST RESULTS:`);
+    console.log(`Total tests: ${totalTests}`);
+    console.log(`Successful paths: ${successfulPaths}`);
+    console.log(`Failed paths: ${failedPaths.length}`);
+    console.log(`Success rate: ${(successfulPaths/totalTests*100).toFixed(1)}%`);
+    
+    if (failedPaths.length > 0) {
+      console.log(`❌ FAILED PATHS:`, failedPaths);
+    }
+    
+    // Test individual fossil connectivity to waypoints
+    console.log('🧪 TESTING FOSSIL-TO-WAYPOINT CONNECTIVITY');
+    const waypointNodes = allNodes.filter(nodeId => nodeId.startsWith('wp_')).slice(0, 5); // Test first 5 waypoints
+    
+    fossilNodes.forEach(fossil => {
+      const connectedWaypoints = [];
+      waypointNodes.forEach(waypoint => {
+        const path = this.pathfinder.findPath(fossil, waypoint);
+        if (path) {
+          connectedWaypoints.push(waypoint);
+        }
+      });
+      console.log(`${fossil} connects to waypoints: ${connectedWaypoints.join(', ') || 'NONE'}`);
+    });
   }
 
   /**
