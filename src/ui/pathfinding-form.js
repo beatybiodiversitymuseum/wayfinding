@@ -94,45 +94,46 @@ export class PathfindingFormComponent {
    * @private
    */
   _setupAutocomplete() {
-    if (this.options.useEnhancedSearch) {
-      // Use enhanced autocomplete with Fuse.js search
-      const fixtureUrls = [
-        './public/geojson/cabinet_fixtures.geojson',
-        './public/geojson/di_box_fixtures.geojson',
-        './public/geojson/fossil_excavation_fixtures.geojson'
-      ];
-
-      this.sourceAutocomplete = new EnhancedAutocompleteComponent(this.sourceInput, {
-        placeholder: 'cabinet, fossil, DI box 27...',
+    // Common configuration for all autocomplete components
+    this.commonAutocompleteConfig = {
+      enhanced: {
+        dataUrls: [
+          './public/geojson/wayfinding.geojson',  // Waypoints (wp_001, wp_002, etc.)
+          './public/geojson/cabinet_fixtures.geojson',
+          './public/geojson/di_box_fixtures.geojson',
+          './public/geojson/fossil_excavation_fixtures.geojson'
+        ],
         searchProvider: 'fuse',
         searchConfig: this.options.searchConfig,
-        dataUrls: fixtureUrls,
         dataLoaderPreset: 'wayfinding',
         showScores: false,
         highlightMatches: true,
+      },
+      basic: {
+        minQueryLength: 2,
+        maxSuggestions: 10,
+      }
+    };
+
+    if (this.options.useEnhancedSearch) {
+      this.sourceAutocomplete = new EnhancedAutocompleteComponent(this.sourceInput, {
+        placeholder: 'cabinet, fossil, DI box 27, wp_001...',
+        ...this.commonAutocompleteConfig.enhanced
       });
 
       this.targetAutocomplete = new EnhancedAutocompleteComponent(this.targetInput, {
-        placeholder: 'cabinet 01, waypoint...',
-        searchProvider: 'fuse',
-        searchConfig: this.options.searchConfig,
-        dataUrls: fixtureUrls,
-        dataLoaderPreset: 'wayfinding',
-        showScores: false,
-        highlightMatches: true,
+        placeholder: 'cabinet 01, waypoint, wp_002...',
+        ...this.commonAutocompleteConfig.enhanced
       });
     } else {
-      // Use original autocomplete
       this.sourceAutocomplete = new AutocompleteComponent(this.sourceInput, {
         placeholder: 'Enter source fixture or waypoint ID...',
-        minQueryLength: 2,
-        maxSuggestions: 10,
+        ...this.commonAutocompleteConfig.basic
       });
 
       this.targetAutocomplete = new AutocompleteComponent(this.targetInput, {
         placeholder: 'Enter target fixture or waypoint ID...',
-        minQueryLength: 2,
-        maxSuggestions: 10,
+        ...this.commonAutocompleteConfig.basic
       });
     }
   }
@@ -322,10 +323,33 @@ export class PathfindingFormComponent {
       });
     }
 
-    if (data.source === data.target) {
+    // Allow source and target to be the same (circular routes are valid)
+    // But validate that consecutive waypoints are different
+    const validWaypoints = this.intermediateWaypoints.filter(w => w.id).map(w => w.id);
+    
+    // Check for consecutive duplicate waypoints
+    for (let i = 0; i < validWaypoints.length - 1; i++) {
+      if (validWaypoints[i] === validWaypoints[i + 1]) {
+        errors.push({
+          field: `waypoint-${i + 1}`,
+          message: `Waypoint ${i + 2} cannot be the same as waypoint ${i + 1}`,
+        });
+      }
+    }
+    
+    // Check if first waypoint is same as source
+    if (validWaypoints.length > 0 && validWaypoints[0] === data.source) {
       errors.push({
-        field: 'target',
-        message: 'Source and target cannot be the same',
+        field: 'waypoint-0',
+        message: 'First waypoint cannot be the same as source',
+      });
+    }
+    
+    // Check if last waypoint is same as target
+    if (validWaypoints.length > 0 && validWaypoints[validWaypoints.length - 1] === data.target) {
+      errors.push({
+        field: `waypoint-${validWaypoints.length - 1}`,
+        message: 'Last waypoint cannot be the same as target',
       });
     }
 
@@ -558,28 +582,16 @@ export class PathfindingFormComponent {
     let autocomplete;
     
     if (this.options.useEnhancedSearch) {
-      // Use the SAME enhanced autocomplete as source/target with Fuse.js search
-      const fixtureUrls = [
-        './public/geojson/cabinet_fixtures.geojson',
-        './public/geojson/di_box_fixtures.geojson',
-        './public/geojson/fossil_excavation_fixtures.geojson'
-      ];
-
+      // Use IDENTICAL configuration to source/target autocomplete
       autocomplete = new EnhancedAutocompleteComponent(input, {
         placeholder: `Search waypoint ${waypointIndex + 1}: cabinet, fossil, DI box, wp_...`,
-        searchProvider: 'fuse',
-        searchConfig: this.options.searchConfig,
-        dataUrls: fixtureUrls,
-        dataLoaderPreset: 'wayfinding',
-        showScores: false,
-        highlightMatches: true,
+        ...this.commonAutocompleteConfig.enhanced
       });
     } else {
-      // Use original autocomplete
+      // Use IDENTICAL configuration to source/target autocomplete
       autocomplete = new AutocompleteComponent(input, {
         placeholder: `Search for waypoint ${waypointIndex + 1}...`,
-        minQueryLength: 2,
-        maxSuggestions: 20,
+        ...this.commonAutocompleteConfig.basic
       });
       
       // Set nodes if graph is available
