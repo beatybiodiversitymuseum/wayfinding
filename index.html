@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wayfinding Pathfinder - Modular Version</title>
+    
+    <!-- External Dependencies -->
+    <link href="https://cdn.jsdelivr.net/npm/maplibre-gl@4.0.0/dist/maplibre-gl.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/maplibre-gl@4.0.0/dist/maplibre-gl.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/deck.gl@9.0.0/dist.min.js"></script>
+    
+    <style>
+        /* CSS Variables for consistent theming */
+        :root {
+            --primary-color: #007bff;
+            --primary-hover: #0056b3;
+            --success-color: #28a745;
+            --error-color: #dc3545;
+            --warning-color: #ffc107;
+            --info-color: #17a2b8;
+            --light-gray: #f8f9fa;
+            --border-color: #ddd;
+            --text-color: #333;
+            --text-muted: #666;
+            --border-radius: 5px;
+            --box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            --transition: all 0.3s ease;
+        }
+
+        /* Base Styles */
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: var(--light-gray);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        /* Container Styles */
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: var(--box-shadow);
+            margin-bottom: 20px;
+        }
+
+        /* Typography */
+        h1 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            font-size: 2.2em;
+            font-weight: 600;
+        }
+
+        h2, h3, h4 {
+            color: var(--text-color);
+            margin-top: 1.5em;
+            margin-bottom: 0.5em;
+        }
+
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius);
+            font-size: 16px;
+            transition: var(--transition);
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+        }
+
+        /* Button Styles */
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        button:hover:not(:disabled) {
+            background-color: var(--primary-hover);
+            transform: translateY(-1px);
+            box-shadow: var(--box-shadow);
+        }
+
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        button:focus {
+            outline: 2px solid var(--primary-color);
+            outline-offset: 2px;
+        }
+
+        /* Result Styles */
+        .result {
+            margin-top: 30px;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            border-left: 4px solid var(--primary-color);
+            background-color: var(--light-gray);
+        }
+
+        .result.error {
+            border-left-color: var(--error-color);
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        .result.success {
+            border-left-color: var(--success-color);
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .result.loading {
+            border-left-color: var(--info-color);
+            background-color: #d1ecf1;
+            color: #0c5460;
+        }
+
+        /* Path Node Styles */
+        .path-node {
+            display: inline-block;
+            margin: 5px;
+            padding: 8px 12px;
+            border-radius: 15px;
+            font-size: 14px;
+            font-weight: bold;
+            border: 2px solid transparent;
+        }
+
+        .path-node.waypoint {
+            background-color: #e3f2fd;
+            color: #1565c0;
+            border-color: #90caf9;
+        }
+
+        .path-node.di_box {
+            background-color: #fff3e0;
+            color: #ef6c00;
+            border-color: #ffcc02;
+        }
+
+        .path-node.cabinet {
+            background-color: #f3e5f5;
+            color: #7b1fa2;
+            border-color: #ce93d8;
+        }
+
+        .path-node.fossil {
+            background-color: #e8f5e8;
+            color: #2e7d32;
+            border-color: #a5d6a7;
+        }
+
+        /* Graph Statistics */
+        .graph-stats {
+            background: var(--light-gray);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            font-size: 14px;
+        }
+
+        .node-types ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .node-types li {
+            padding: 5px 0;
+            font-size: 14px;
+        }
+
+        .ready-message {
+            margin-top: 20px;
+            padding: 15px;
+            background: #e7f3ff;
+            border-radius: var(--border-radius);
+            border-left: 4px solid var(--primary-color);
+            font-size: 14px;
+        }
+
+        /* Node Details */
+        .node-details {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .node-detail {
+            margin: 10px 0;
+            padding: 10px;
+            background: var(--light-gray);
+            border-radius: var(--border-radius);
+        }
+
+        .coordinates {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 5px;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+        }
+
+        /* Export Section */
+        .export-actions {
+            margin: 15px 0;
+        }
+
+        .export-button {
+            background-color: var(--success-color);
+            margin-right: 10px;
+        }
+
+        .export-button:hover {
+            background-color: #218838;
+        }
+
+        .geojson-details {
+            margin: 10px 0;
+        }
+
+        .geojson-details summary {
+            cursor: pointer;
+            font-weight: bold;
+            color: var(--primary-color);
+            padding: 5px 0;
+        }
+
+        .geojson-code {
+            background: var(--light-gray);
+            padding: 15px;
+            border-radius: var(--border-radius);
+            overflow-x: auto;
+            font-size: 12px;
+            margin-top: 10px;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        /* Examples Section */
+        .examples {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #e9ecef;
+            border-radius: var(--border-radius);
+        }
+
+        .example-button {
+            background-color: #6c757d;
+            font-size: 14px;
+            padding: 8px 12px;
+            margin: 5px;
+        }
+
+        .example-button:hover {
+            background-color: #545b62;
+        }
+
+        /* Loading Indicator */
+        .loading-indicator {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading-message {
+            font-weight: 500;
+        }
+
+        /* Map Container */
+        .map-section {
+            margin-top: 30px;
+        }
+
+        .map-controls {
+            margin-bottom: 15px;
+            padding: 15px;
+            background-color: var(--light-gray);
+            border-radius: var(--border-radius);
+        }
+
+        .map-controls h3 {
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+
+        #mapStatus {
+            margin-bottom: 15px;
+            padding: 10px;
+            background: white;
+            border-radius: var(--border-radius);
+            font-size: 14px;
+            border-left: 4px solid var(--info-color);
+        }
+
+        .status-info { border-left-color: var(--info-color); }
+        .status-success { border-left-color: var(--success-color); color: var(--success-color); }
+        .status-error { border-left-color: var(--error-color); color: var(--error-color); }
+
+        #mapContainer {
+            height: 500px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+            background: var(--light-gray);
+        }
+
+        /* Autocomplete Styles */
+        .autocomplete-wrapper {
+            position: relative;
+            width: 100%;
+        }
+
+        .autocomplete-suggestions {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            max-height: 200px;
+            overflow-y: auto;
+            background-color: white;
+            border: 1px solid var(--border-color);
+            border-top: none;
+            border-radius: 0 0 var(--border-radius) var(--border-radius);
+            box-shadow: var(--box-shadow);
+            z-index: 1000;
+        }
+
+        .autocomplete-item {
+            padding: 10px 12px;
+            cursor: pointer;
+            border-bottom: 1px solid #eee;
+            font-size: 14px;
+            transition: background-color 0.2s ease;
+        }
+
+        .autocomplete-item:hover,
+        .autocomplete-item.autocomplete-active {
+            background-color: #e3f2fd;
+        }
+
+        .autocomplete-item:last-child {
+            border-bottom: none;
+        }
+
+        .node-type-badge {
+            margin-left: 8px;
+            font-size: 12px;
+            font-style: italic;
+            opacity: 0.7;
+        }
+
+        /* Keyboard Shortcuts */
+        .keyboard-shortcuts {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 15px;
+        }
+
+        .keyboard-shortcuts div {
+            margin: 2px 0;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .container {
+                padding: 20px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            #mapContainer {
+                height: 300px;
+            }
+
+            button {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+        }
+
+        /* High Contrast Mode Support */
+        @media (prefers-contrast: high) {
+            .path-node {
+                border-width: 3px;
+            }
+            
+            button {
+                border: 2px solid currentColor;
+            }
+        }
+
+        /* Reduced Motion Support */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* Fallback Visualization Styles */
+        .fallback-visualization {
+            height: 100%;
+            background: linear-gradient(135deg, #f0f0f0 0%, #e0e0e0 100%);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .fallback-content {
+            height: 400px;
+            background: white;
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+            border: 2px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .fallback-message {
+            color: var(--text-muted);
+            font-size: 14px;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .fallback-path-info {
+            background: var(--light-gray);
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #ff6b35;
+            text-align: left;
+            margin: 10px;
+            max-width: 500px;
+        }
+
+        .fallback-path-info h4 {
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+
+        .fallback-path-info div {
+            margin: 5px 0;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🗺️ Wayfinding Pathfinder</h1>
+            <p>Find optimal paths between fixtures (DI boxes, cabinets, fossil excavations) and waypoints through the wayfinding network. This modular version provides enhanced performance, testing, and maintainability.</p>
+        </header>
+        
+        <main>
+            <form id="pathfindingForm" role="form" aria-label="Wayfinding pathfinding form">
+                <div class="form-group">
+                    <label for="source" id="source-label">Source ID (Fixture or Waypoint):</label>
+                    <div class="autocomplete" role="combobox" aria-expanded="false" aria-haspopup="listbox" aria-labelledby="source-label">
+                        <input 
+                            type="text" 
+                            id="source" 
+                            name="source" 
+                            placeholder="e.g., di_27_18_top or wp_001" 
+                            required 
+                            autocomplete="off"
+                            aria-describedby="source-help"
+                            aria-autocomplete="list"
+                            role="textbox"
+                        >
+                    </div>
+                    <div id="source-help" class="sr-only">Enter the starting fixture or waypoint ID. Use autocomplete suggestions for valid options.</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="target" id="target-label">Target ID (Fixture or Waypoint):</label>
+                    <div class="autocomplete" role="combobox" aria-expanded="false" aria-haspopup="listbox" aria-labelledby="target-label">
+                        <input 
+                            type="text" 
+                            id="target" 
+                            name="target" 
+                            placeholder="e.g., fossil_excavation_1 or wp_025" 
+                            required 
+                            autocomplete="off"
+                            aria-describedby="target-help"
+                            aria-autocomplete="list"
+                            role="textbox"
+                        >
+                    </div>
+                    <div id="target-help" class="sr-only">Enter the destination fixture or waypoint ID. Use autocomplete suggestions for valid options.</div>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="submit" aria-describedby="find-path-help">
+                        🔍 Find Path
+                        <span style="font-size: 12px; opacity: 0.7;">(Ctrl+Enter)</span>
+                    </button>
+                    <button type="button" id="loadGraphBtn" aria-describedby="load-graph-help">
+                        📊 Load Graph Data
+                        <span style="font-size: 12px; opacity: 0.7;">(Ctrl+Enter if not loaded)</span>
+                    </button>
+                </div>
+                <div id="find-path-help" class="sr-only">Calculate the optimal path between the source and target fixtures</div>
+                <div id="load-graph-help" class="sr-only">Load the wayfinding network data into memory for pathfinding</div>
+            </form>
+            
+            <section class="examples">
+                <h3>Example Fixture IDs:</h3>
+                <div class="example-categories">
+                    <p><strong>DI Boxes:</strong> di_27_18_top, di_05_01_top, di_12_08_bottom</p>
+                    <p><strong>Cabinets:</strong> col_1_cab_01, col_2_cab_15, col_3_cab_22</p>
+                    <p><strong>Fossils:</strong> fossil_excavation_1, fossil_excavation_2, fossil_excavation_9</p>
+                    <p><strong>Waypoints:</strong> wp_001, wp_010, wp_025, wp_049</p>
+                </div>
+                
+                <h4>Quick Examples:</h4>
+                <div role="group" aria-label="Example pathfinding scenarios">
+                    <button type="button" class="example-button" data-source="di_27_18_top" data-target="fossil_excavation_1" aria-label="Set source to DI Box di_27_18_top and target to Fossil excavation 1">DI Box → Fossil</button>
+                    <button type="button" class="example-button" data-source="col_1_cab_01" data-target="di_05_01_top" aria-label="Set source to Cabinet col_1_cab_01 and target to DI Box di_05_01_top">Cabinet → DI Box</button>
+                    <button type="button" class="example-button" data-source="fossil_excavation_1" data-target="col_2_cab_15" aria-label="Set source to Fossil excavation 1 and target to Cabinet col_2_cab_15">Fossil → Cabinet</button>
+                    <button type="button" class="example-button" data-source="wp_001" data-target="wp_025" aria-label="Set source to Waypoint wp_001 and target to Waypoint wp_025">Waypoint → Waypoint</button>
+                    <button type="button" class="example-button" data-source="wp_010" data-target="di_27_18_top" aria-label="Set source to Waypoint wp_010 and target to DI Box di_27_18_top">Waypoint → DI Box</button>
+                </div>
+                
+                <div class="keyboard-shortcuts">
+                    <h4>⌨️ Keyboard Shortcuts:</h4>
+                    <div><strong>Ctrl+Enter</strong> (or Cmd+Enter): Find path or load graph</div>
+                    <div><strong>Escape</strong>: Clear results</div>
+                    <div><strong>Tab</strong>: Smart navigation between fields</div>
+                    <div><strong>Arrow Keys</strong>: Navigate autocomplete suggestions</div>
+                </div>
+            </section>
+            
+            <div id="result" role="region" aria-live="polite" aria-label="Pathfinding results"></div>
+        </main>
+    </div>
+
+    <!-- Map Visualization Section -->
+    <div class="container map-section">
+        <div class="map-controls">
+            <h3>🗺️ Route Visualization</h3>
+            <div id="mapStatus" role="status" aria-live="polite" class="status-info">
+                <strong>Status:</strong> <span id="statusText">Initializing...</span>
+            </div>
+            <div role="group" aria-label="Map controls">
+                <button id="showFixturesBtn" onclick="app?.toggleLayer('fixtures')" aria-pressed="true" aria-describedby="fixtures-help">
+                    👁️ Toggle Fixtures
+                </button>
+                <button id="showWaypointsBtn" onclick="app?.toggleLayer('waypoints')" aria-pressed="false" aria-describedby="waypoints-help">
+                    🔵 Toggle Waypoints
+                </button>
+                <button id="resetMapBtn" onclick="app?.resetMapView()" aria-describedby="reset-help">
+                    🎯 Reset View
+                </button>
+            </div>
+            <div id="fixtures-help" class="sr-only">Toggle visibility of fixtures on the map</div>
+            <div id="waypoints-help" class="sr-only">Toggle visibility of waypoints on the map</div>
+            <div id="reset-help" class="sr-only">Reset the map to the default view</div>
+        </div>
+        <div id="mapContainer" role="img" aria-label="Interactive map showing wayfinding network and calculated paths"></div>
+    </div>
+
+    <!-- Application Script -->
+    <script type="module" src="./src/main.js"></script>
+    
+    <!-- Screen Reader Only Content -->
+    <div class="sr-only" aria-live="polite" id="sr-announcements"></div>
+    
+    <style>
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+    </style>
+</body>
+</html>
