@@ -1,4 +1,4 @@
-# Wayfinding Pathfinder - Modular Version
+# Wayfinding Pathfinder
 A demonstration of indoor mapping for the Beaty.
 
 ## 🚀 Quick Start
