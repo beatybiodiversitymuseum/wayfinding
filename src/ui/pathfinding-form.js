@@ -5,6 +5,7 @@
  */
 
 import { AutocompleteComponent } from './autocomplete.js';
+import { EnhancedAutocompleteComponent } from './enhanced-autocomplete.js';
 
 /**
  * Pathfinding form component
@@ -20,6 +21,12 @@ export class PathfindingFormComponent {
       enableKeyboardShortcuts: true,
       enableExamples: true,
       showLoadingIndicator: true,
+      useEnhancedSearch: true, // Enable the new Fuse.js search
+      searchConfig: {
+        threshold: 0.4,
+        maxResults: 50,
+        minQueryLength: 2,
+      },
       ...options,
     };
 
@@ -75,15 +82,45 @@ export class PathfindingFormComponent {
    * @private
    */
   _setupAutocomplete() {
-    this.sourceAutocomplete = new AutocompleteComponent(this.sourceInput, {
-      placeholder: 'e.g., di_27_18_top or wp_001',
-      maxSuggestions: 50,
-    });
+    if (this.options.useEnhancedSearch) {
+      // Use the new enhanced autocomplete with Fuse.js search
+      const fixtureUrls = [
+        './public/geojson/cabinet_fixtures.geojson',
+        './public/geojson/di_box_fixtures.geojson',
+        './public/geojson/fossil_excavation_fixtures.geojson'
+      ];
 
-    this.targetAutocomplete = new AutocompleteComponent(this.targetInput, {
-      placeholder: 'e.g., fossil_excavation_1 or wp_025',
-      maxSuggestions: 50,
-    });
+      this.sourceAutocomplete = new EnhancedAutocompleteComponent(this.sourceInput, {
+        placeholder: 'Search fixtures: main cabinet, fossil dig, DI box 27...',
+        searchProvider: 'fuse',
+        searchConfig: this.options.searchConfig,
+        dataUrls: fixtureUrls,
+        dataLoaderPreset: 'wayfinding',
+        showScores: false,
+        highlightMatches: true,
+      });
+
+      this.targetAutocomplete = new EnhancedAutocompleteComponent(this.targetInput, {
+        placeholder: 'Search fixtures: excavation site, cabinet 01, waypoint...',
+        searchProvider: 'fuse',
+        searchConfig: this.options.searchConfig,
+        dataUrls: fixtureUrls,
+        dataLoaderPreset: 'wayfinding',
+        showScores: false,
+        highlightMatches: true,
+      });
+    } else {
+      // Fallback to original autocomplete
+      this.sourceAutocomplete = new AutocompleteComponent(this.sourceInput, {
+        placeholder: 'e.g., di_27_18_top or wp_001',
+        maxSuggestions: 50,
+      });
+
+      this.targetAutocomplete = new AutocompleteComponent(this.targetInput, {
+        placeholder: 'e.g., fossil_excavation_1 or wp_025',
+        maxSuggestions: 50,
+      });
+    }
   }
 
   /**
@@ -105,12 +142,18 @@ export class PathfindingFormComponent {
       });
     }
 
-    // Autocomplete selection events
+    // Autocomplete selection events (support both old and new autocomplete)
     this.sourceInput.addEventListener('autocomplete:select', (e) => {
+      this._handleAutocompleteSelect('source', e.detail);
+    });
+    this.sourceInput.addEventListener('enhanced-autocomplete:select', (e) => {
       this._handleAutocompleteSelect('source', e.detail);
     });
 
     this.targetInput.addEventListener('autocomplete:select', (e) => {
+      this._handleAutocompleteSelect('target', e.detail);
+    });
+    this.targetInput.addEventListener('enhanced-autocomplete:select', (e) => {
       this._handleAutocompleteSelect('target', e.detail);
     });
   }
@@ -172,8 +215,27 @@ export class PathfindingFormComponent {
    * @param {Map<string, string>} nodeTypes - Map of node types
    */
   setAutocompleteData(nodes, nodeTypes) {
-    this.sourceAutocomplete.setNodes(nodes, nodeTypes);
-    this.targetAutocomplete.setNodes(nodes, nodeTypes);
+    if (this.options.useEnhancedSearch) {
+      // Enhanced autocomplete loads data from GeoJSON files automatically
+      // But we can add waypoint data if needed
+      const waypointData = nodes.map(nodeId => ({
+        id: nodeId,
+        name: nodeId,
+        type: nodeTypes.get(nodeId) || 'waypoint',
+        category: 'navigation'
+      }));
+      
+      if (this.sourceAutocomplete.setData) {
+        this.sourceAutocomplete.setData([...this.sourceAutocomplete.searchData, ...waypointData]);
+      }
+      if (this.targetAutocomplete.setData) {
+        this.targetAutocomplete.setData([...this.targetAutocomplete.searchData, ...waypointData]);
+      }
+    } else {
+      // Original autocomplete
+      this.sourceAutocomplete.setNodes(nodes, nodeTypes);
+      this.targetAutocomplete.setNodes(nodes, nodeTypes);
+    }
   }
 
   /**

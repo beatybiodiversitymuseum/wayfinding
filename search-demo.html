@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Search Demo - Wayfinding</title>
+    <script src="https://cdn.jsdelivr.net/npm/fuse.js@7.0.0/dist/fuse.min.js"></script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        h1 {
+            color: #007bff;
+            margin-bottom: 10px;
+        }
+        .search-container {
+            margin-bottom: 30px;
+        }
+        input {
+            width: 100%;
+            padding: 15px;
+            font-size: 16px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            box-sizing: border-box;
+        }
+        input:focus {
+            outline: none;
+            border-color: #007bff;
+        }
+        .enhanced-autocomplete-wrapper {
+            position: relative;
+            width: 100%;
+        }
+        .enhanced-autocomplete-suggestions {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            max-height: 300px;
+            overflow-y: auto;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-top: none;
+            border-radius: 0 0 5px 5px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+        .autocomplete-item {
+            padding: 12px 15px;
+            cursor: pointer;
+            border-bottom: 1px solid #eee;
+            font-size: 14px;
+            line-height: 1.4;
+            transition: background-color 0.2s ease;
+        }
+        .autocomplete-item:hover {
+            background-color: #e3f2fd;
+        }
+        .autocomplete-item:last-child {
+            border-bottom: none;
+        }
+        .search-highlight,
+        mark.search-highlight {
+            background-color: #fff3cd;
+            color: #856404;
+            padding: 1px 2px;
+            border-radius: 2px;
+            font-weight: 600;
+        }
+        .status {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        .status.success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .status.error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .status.info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        .examples {
+            margin-top: 20px;
+        }
+        .example-btn {
+            margin: 5px;
+            padding: 8px 12px;
+            background: #e9ecef;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .example-btn:hover {
+            background: #dee2e6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 Enhanced Search Demo</h1>
+        <p>Testing the new Fuse.js search system with GeoJSON data from the wayfinding project.</p>
+        
+        <div class="search-container">
+            <label for="searchInput">Search Fixtures:</label>
+            <input 
+                type="text" 
+                id="searchInput" 
+                placeholder="Try: main cabinet, fossil dig, DI box 27, excavation..."
+                autocomplete="off"
+            >
+        </div>
+        
+        <div id="status" class="status info">Initializing search system...</div>
+        
+        <div class="examples">
+            <h3>Try These Example Searches:</h3>
+            <button class="example-btn" onclick="searchFor('main cabinet')">main cabinet</button>
+            <button class="example-btn" onclick="searchFor('fossil dig')">fossil dig</button>
+            <button class="example-btn" onclick="searchFor('DI box 27')">DI box 27</button>
+            <button class="example-btn" onclick="searchFor('excavation')">excavation</button>
+            <button class="example-btn" onclick="searchFor('cabinet 01')">cabinet 01</button>
+            <button class="example-btn" onclick="searchFor('column 1')">column 1</button>
+        </div>
+    </div>
+
+    <script type="module">
+        import { EnhancedAutocompleteComponent } from './src/ui/enhanced-autocomplete.js';
+
+        let autocomplete;
+        const statusEl = document.getElementById('status');
+
+        function updateStatus(message, type = 'info') {
+            statusEl.textContent = message;
+            statusEl.className = `status ${type}`;
+        }
+
+        async function initializeDemo() {
+            try {
+                const input = document.getElementById('searchInput');
+                
+                // GeoJSON URLs to load
+                const fixtureUrls = [
+                    './public/geojson/cabinet_fixtures.geojson',
+                    './public/geojson/di_box_fixtures.geojson',
+                    './public/geojson/fossil_excavation_fixtures.geojson'
+                ];
+
+                autocomplete = new EnhancedAutocompleteComponent(input, {
+                    placeholder: 'Search fixtures: main cabinet, fossil dig, DI box 27...',
+                    searchProvider: 'fuse',
+                    searchConfig: {
+                        threshold: 0.4,
+                        maxResults: 50,
+                        minQueryLength: 2,
+                    },
+                    dataUrls: fixtureUrls,
+                    dataLoaderPreset: 'wayfinding',
+                    showScores: true, // Show scores for demo
+                    highlightMatches: true,
+                });
+
+                // Listen for events
+                input.addEventListener('enhanced-autocomplete:ready', () => {
+                    updateStatus('✅ Search system initialized successfully!', 'success');
+                });
+
+                input.addEventListener('enhanced-autocomplete:data-loaded', (e) => {
+                    updateStatus(`📊 Loaded ${e.detail.count} searchable items from GeoJSON files`, 'success');
+                });
+
+                input.addEventListener('enhanced-autocomplete:select', (e) => {
+                    const item = e.detail.item;
+                    updateStatus(`🎯 Selected: ${item.id} (${item.type || item.category}) - Score: ${e.detail.result.score.toFixed(3)}`, 'success');
+                });
+
+                input.addEventListener('enhanced-autocomplete:error', (e) => {
+                    updateStatus(`❌ Error: ${e.detail.error}`, 'error');
+                });
+
+                input.addEventListener('enhanced-autocomplete:data-error', (e) => {
+                    updateStatus(`❌ Data loading error: ${e.detail.error}`, 'error');
+                });
+
+            } catch (error) {
+                console.error('Demo initialization failed:', error);
+                updateStatus(`❌ Demo initialization failed: ${error.message}`, 'error');
+            }
+        }
+
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', initializeDemo);
+        
+        // Helper function for example buttons
+        window.searchFor = function(query) {
+            const input = document.getElementById('searchInput');
+            input.value = query;
+            input.dispatchEvent(new Event('input'));
+            input.focus();
+        };
+    </script>
+</body>
+</html>

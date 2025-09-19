@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quick Search Test</title>
+    <script src="https://cdn.jsdelivr.net/npm/fuse.js@7.0.0/dist/fuse.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        input { padding: 10px; width: 300px; margin: 10px 0; }
+        .result { padding: 10px; margin: 5px 0; background: #f0f0f0; }
+    </style>
+</head>
+<body>
+    <h1>Search System Test</h1>
+    <input type="text" id="testInput" placeholder="Type to search...">
+    <div id="results"></div>
+
+    <script type="module">
+        import { createSearchProvider } from './src/search/fuse-search-provider.js';
+        import { GeoJSONDataLoader } from './src/search/geojson-data-loader.js';
+
+        async function test() {
+            console.log('Starting search test...');
+            
+            try {
+                // Test data loader - load ALL fixture types
+                const dataLoader = GeoJSONDataLoader.createPreset('wayfinding');
+                const fixtureUrls = [
+                    './public/geojson/cabinet_fixtures.geojson',
+                    './public/geojson/di_box_fixtures.geojson',
+                    './public/geojson/fossil_excavation_fixtures.geojson'
+                ];
+                const data = await dataLoader.loadFromUrls(fixtureUrls);
+                
+                console.log(`Loaded ${data.length} items from GeoJSON`);
+                console.log('Sample items:', data.slice(0, 3));
+                
+                // Show what fields are available
+                if (data.length > 0) {
+                    console.log('Available fields:', Object.keys(data[0]));
+                    console.log('Sample data structure:', JSON.stringify(data[0], null, 2));
+                }
+
+                // Test search provider
+                const searchProvider = await createSearchProvider('fuse');
+                await searchProvider.initialize(data, { 
+                    threshold: 0.6,
+                    minQueryLength: 1 
+                });
+                
+                console.log('Search provider initialized with', data.length, 'items');
+
+                // Test search
+                const input = document.getElementById('testInput');
+                const results = document.getElementById('results');
+
+                input.addEventListener('input', (e) => {
+                    const query = e.target.value;
+                    if (query.length < 1) {
+                        results.innerHTML = '';
+                        return;
+                    }
+
+                    console.log(`Searching for: "${query}"`);
+                    const searchResults = searchProvider.search(query);
+                    console.log(`Found ${searchResults.length} results:`, searchResults);
+
+                    if (searchResults.length === 0) {
+                        results.innerHTML = '<div class="result">No results found</div>';
+                    } else {
+                        results.innerHTML = searchResults.slice(0, 10).map(result => `
+                            <div class="result">
+                                <strong>${result.item.id}</strong> - ${result.item.name || result.item.alt_name || 'No name'}
+                                <br><small>Score: ${result.score.toFixed(3)} | Type: ${result.item.type || result.item.nodeType || 'unknown'}</small>
+                                <br><small>Category: ${result.item.category || 'none'}</small>
+                                ${result.matches ? `<br><small>Matches: ${result.matches.map(m => m.key).join(', ')}</small>` : ''}
+                            </div>
+                        `).join('');
+                    }
+                });
+
+                // Auto-test with a known value
+                setTimeout(() => {
+                    console.log('Auto-testing with "cabinet"...');
+                    input.value = 'cabinet';
+                    input.dispatchEvent(new Event('input'));
+                }, 1000);
+
+                document.body.insertAdjacentHTML('beforeend', `
+                    <p>✅ Test setup complete! Data loaded: ${data.length} items</p>
+                    <p>Try searching for:</p>
+                    <ul>
+                        <li><strong>cabinet</strong> - cabinet fixtures (col_1_cab_01, etc.)</li>
+                        <li><strong>di</strong> - DI box fixtures</li>
+                        <li><strong>fossil</strong> - fossil excavation sites</li>
+                        <li><strong>excavation</strong> - excavation sites</li>
+                        <li><strong>furniture</strong> - category search</li>
+                        <li><strong>Column</strong> - part of cabinet names</li>
+                    </ul>
+                    <p><strong>Debug info:</strong> Check browser console for detailed logs</p>
+                `);
+
+            } catch (error) {
+                console.error('Test failed:', error);
+                document.body.insertAdjacentHTML('beforeend', `
+                    <p style="color: red;">❌ Test failed: ${error.message}</p>
+                    <pre style="background: #f0f0f0; padding: 10px;">${error.stack}</pre>
+                `);
+            }
+        }
+
+        // Run test when page loads
+        document.addEventListener('DOMContentLoaded', test);
+    </script>
+</body>
+</html>
